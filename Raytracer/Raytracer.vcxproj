@@ -426,8 +426,10 @@
     <ClInclude Include="include\prims\Object.h" />
     <ClInclude Include="include\prims\Plane.h" />
     <ClInclude Include="include\prims\Sphere.h" />
+    <ClInclude Include="include\prims\Triangle.h" />
     <ClInclude Include="include\renderer\Camera.h" />
     <ClInclude Include="include\renderer\Imager.h" />
+    <ClInclude Include="include\renderer\IntersectData.h" />
     <ClInclude Include="include\renderer\Matrix.h" />
     <ClInclude Include="include\renderer\Point.h" />
     <ClInclude Include="include\renderer\Ray.h" />
@@ -435,6 +437,7 @@
     <ClInclude Include="include\renderer\World.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\prims\Triangle.cpp" />
     <ClCompile Include="src\renderer\Camera.cpp" />
     <ClCompile Include="src\renderer\Imager.cpp" />
     <ClCompile Include="src\renderer\Matrix.cpp" />
