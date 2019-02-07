@@ -88,7 +88,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <SDLCheck>true</SDLCheck>
+      <SDLCheck>false</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)\include;$(SolutionDir)\extern\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -150,6 +150,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="extern\include\CLmg\CImg.h" />
     <ClInclude Include="extern\include\eigen\Cholesky\LDLT.h" />
     <ClInclude Include="extern\include\eigen\Cholesky\LLT.h" />
     <ClInclude Include="extern\include\eigen\Cholesky\LLT_LAPACKE.h" />
@@ -426,6 +427,7 @@
     <ClInclude Include="include\prims\Plane.h" />
     <ClInclude Include="include\prims\Sphere.h" />
     <ClInclude Include="include\renderer\Camera.h" />
+    <ClInclude Include="include\renderer\Imager.h" />
     <ClInclude Include="include\renderer\Matrix.h" />
     <ClInclude Include="include\renderer\Point.h" />
     <ClInclude Include="include\renderer\Ray.h" />
@@ -434,6 +436,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\renderer\Camera.cpp" />
+    <ClCompile Include="src\renderer\Imager.cpp" />
     <ClCompile Include="src\renderer\Matrix.cpp" />
     <ClCompile Include="src\renderer\Point.cpp" />
     <ClCompile Include="src\renderer\Ray.cpp" />
