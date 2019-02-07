@@ -3,6 +3,7 @@ Model for a scene's world in the renderer.
 */
 
 #ifndef RT_WORLD_H
+#define RT_WORLD_H
 
 #include <vector>
 

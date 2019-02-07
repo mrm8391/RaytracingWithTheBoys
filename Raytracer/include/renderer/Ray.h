@@ -4,6 +4,7 @@ renderer.
 */
 
 #ifndef RT_RAY_H
+#define RT_RAY_H
 
 class Ray {
 	
