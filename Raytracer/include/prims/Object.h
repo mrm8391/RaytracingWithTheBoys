@@ -5,6 +5,7 @@ These will be mathematically defined.
 */
 
 #ifndef RT_OBJECT_H
+#define RT_OBJECT_H
 
 class Object {
 
