@@ -11,6 +11,10 @@ class Point : public Vector {
 
 public:
 	Point();
+	Point(double x, double y, double z);
+
+	//Copy constructor
+	Point(Point &other);
 };
 
 #endif
