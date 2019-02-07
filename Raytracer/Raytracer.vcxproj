@@ -435,6 +435,7 @@
     <ClInclude Include="include\renderer\Ray.h" />
     <ClInclude Include="include\renderer\Vector.h" />
     <ClInclude Include="include\renderer\World.h" />
+    <ClInclude Include="include\utils\Transforms.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\prims\Triangle.cpp" />
@@ -449,6 +450,7 @@
     <ClCompile Include="src\prims\Plane.cpp" />
     <ClCompile Include="src\prims\Sphere.cpp" />
     <ClCompile Include="src\Raytracer.cpp" />
+    <ClCompile Include="src\utils\Transforms.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
