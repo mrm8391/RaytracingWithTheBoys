@@ -17,8 +17,19 @@ public:
 
 	Triangle(Point p1, Point p2, Point p3);
 
+	/*
+	Calculates intersection point with a ray. 
+	*/
 	IntersectData intersect(Ray ray);
+
+	/*
+	Translates all points of the triangle by x, y, and z. 
+	*/
 	void translate(double x, double y, double z);
+
+	/*
+	Moves the triangle to (x,y,z), regardless of triangle's current position. 
+	*/
 	void move(double x, double y, double z);
 };
 

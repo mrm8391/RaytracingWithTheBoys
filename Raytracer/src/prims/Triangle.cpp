@@ -14,6 +14,10 @@ Stub
 */
 IntersectData Triangle::intersect(Ray ray)
 {
+	// barycentric to world conversion: u*p1 + v*p2 + w*p3
+
+	// Vector wrapper class has dot and cross product functions already
+
 	return IntersectData();
 }
 
