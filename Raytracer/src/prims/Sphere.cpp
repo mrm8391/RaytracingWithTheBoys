@@ -50,7 +50,7 @@ IntersectData * Sphere::intersect(Ray ray)
 	}
 	else if (discriminant == 0.0) {
 		// ((B^2) - 4C = 0): ray intersects at sphere's surface
-		omega = 0.0;
+		omega = -B / 2.0;
 	}
 	else {
 		// ((B^2) - 4C > 0): ray goes through sphere. Use least positive root for ((B^2) - 4C)^.5
@@ -70,4 +70,12 @@ IntersectData * Sphere::intersect(Ray ray)
 	IntersectData * intersect = new IntersectData(omega, color, worldCoordsIntersection);
 
 	return intersect;
+}
+
+void Sphere::translate(double x, double y, double z)
+{
+}
+
+void Sphere::move(double x, double y, double z)
+{
 }

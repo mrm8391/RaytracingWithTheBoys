@@ -25,6 +25,16 @@ public:
 		Otherwise, returns pointer to beginning of IntersectData array.
 	*/
 	IntersectData* intersect(Ray ray);
+
+	/*
+	Translates center point of the sphere by x, y, and z.
+	*/
+	void translate(double x, double y, double z);
+
+	/*
+	Moves the triangle to (x,y,z), regardless of triangle's current position.
+	*/
+	void move(double x, double y, double z);
 };
 
 #endif
