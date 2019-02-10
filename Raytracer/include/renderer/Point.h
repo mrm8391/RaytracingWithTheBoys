@@ -12,9 +12,14 @@ class Point : public Vector {
 public:
 	Point();
 	Point(double x, double y, double z);
+	Point(Vector &other);
 
 	//Copy constructor
 	Point(Point &other);
+
+	// Returns a Vector with the values of (this.x - other.x, this.y - other.y, this.z - other.z)
+	Vector subtract(Point &other);
+
 };
 
 #endif

@@ -18,6 +18,15 @@ typedef struct IntersectData_{
 
 	//Point at which the intersection occurs (optional)
 	Point intersection;
+
+	IntersectData_()
+	{
+	}
+
+	IntersectData_(double d, double c, Point i) : distance(d), color(c), intersection(i) 
+	{
+	}
+
 } IntersectData;
 
 #endif

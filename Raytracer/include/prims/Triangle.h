@@ -13,9 +13,9 @@ class Triangle : public Object {
 
 public:
 
-	Point p1, p2, p3;
+	Point p0, p1, p2;
 
-	Triangle(Point p1, Point p2, Point p3);
+	Triangle(Point p0, Point p1, Point p2);
 
 	/*
 	Calculates intersection point with a ray. 
