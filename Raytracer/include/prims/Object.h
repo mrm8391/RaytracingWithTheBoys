@@ -43,7 +43,7 @@ public:
 
 	@param other Object to copy
 	*/
-	Object(Object &other);
+	Object(const Object &other);
 
 	// Returns array of intersections with that object
 	virtual IntersectData* intersect(Ray ray);

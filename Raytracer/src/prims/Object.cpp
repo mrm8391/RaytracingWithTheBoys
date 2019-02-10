@@ -14,10 +14,10 @@ Object::Object(double x, double y, double z) {
 	this->pos = Point(x, y, z);
 }
 
-Object::Object(Object & other)
+Object::Object(const Object & other)
 {
 	this->id = other.id;
-	this->pos = Point(other.pos);
+	this->pos = Point(other.pos.vec[0], other.pos.vec[1], other.pos.vec[2]);
 }
 
 IntersectData * Object::intersect(Ray ray)
