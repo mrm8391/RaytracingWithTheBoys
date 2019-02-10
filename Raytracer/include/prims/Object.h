@@ -21,11 +21,11 @@ public:
 	Object();
 
 	// Returns array of intersections with that object
-	virtual IntersectData* intersect(Ray ray) = 0;
+	virtual IntersectData* intersect(Ray ray);
 
-	virtual void translate(double x, double y, double z) = 0;
+	virtual void translate(double x, double y, double z);
 
-	virtual void move(double x, double y, double z) = 0;
+	virtual void move(double x, double y, double z);
 };
 
 #endif
