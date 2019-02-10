@@ -58,24 +58,32 @@ IntersectData* Triangle::intersect(Ray ray)
 	double v = m*preWuv.vec[2];
 
 	// u < 0, v < 0, u+v> 1, then intersection point is outside of triangle.
-	if (u < 0.0 && v < 0.0 && (u + v) > 1.0) {
+	if (u < 0.0 || v < 0.0 || (u + v) > 1.0) {
 		return NULL;
 	}
 
+	/* Does not seem to work
 	// barycentric to world conversion: u*p0 + v*p1 + w*p2
 	Point worldCoordsIntersection(
 		u*p0.vec[0] + v*p1.vec[0] + w*p2.vec[0],
 		u*p0.vec[1] + v*p1.vec[1] + w*p2.vec[1],
 		u*p0.vec[2] + v*p1.vec[2] + w*p2.vec[2]
 	);
+	*/
+
+	// We know origin of ray, direction of ray, and distance along direction of that ray where intersection is. Calculate intersect in world coordinates.
+	Point worldCoordsIntersection(
+		(w * ray.direction.vec[0]) + ray.origin.vec[0],
+		(w * ray.direction.vec[1]) + ray.origin.vec[1],
+		(w * ray.direction.vec[2]) + ray.origin.vec[2]);
 
 	// STAND-IN
 	double color = 0.5;
 
 	// If needed in future: e1 x e2 gives the normal
-	IntersectData intersect(w, color, worldCoordsIntersection);
+	IntersectData * intersect = new IntersectData(w, color, worldCoordsIntersection);
 
-	return &intersect;
+	return intersect;
 }
 
 void Triangle::translate(double x, double y, double z) {
