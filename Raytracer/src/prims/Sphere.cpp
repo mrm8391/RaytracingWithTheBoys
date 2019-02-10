@@ -18,9 +18,9 @@ IntersectData * Sphere::intersect(Ray ray)
 	double y0 = ray.origin.vec[1];
 	double z0 = ray.origin.vec[2];
 
-	double xC = center.vec[0];
-	double yC = center.vec[1];
-	double zC = center.vec[2];
+	double xC = pos.vec[0];
+	double yC = pos.vec[1];
+	double zC = pos.vec[2];
 
 	// B = 2*(dx(x0-xC) + dy(y0-yC) + dz(z0-zC))
 	double B = 2 * (

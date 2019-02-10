@@ -13,9 +13,10 @@ class Sphere : public Object {
 public:
 	Sphere();
 
-	Sphere(Point c, double r) : center(c), radius(r) {};
-
-	Point center;
+	Sphere(Point c, double r) {
+		pos = c;
+		radius = r;
+	}
 
 	double radius;
 
