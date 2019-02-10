@@ -15,7 +15,17 @@ public:
 	/*
 	Return a rotation transformation matrix. 
 	*/
-	static Eigen::Matrix4d rotate(double x, double y, double z);
+	static Eigen::Matrix4d rotate(double rx, double ry, double rz);
+
+	/*
+	Return a scaling transformation matrix.
+	*/
+	static Eigen::Matrix4d scale(double sx, double sy, double sz);
+
+	/*
+	Return a translation transformation matrix.
+	*/
+	static Eigen::Matrix4d translate(double dx, double dy, double dz);
 
 private:
 	//Private constructor to prevent initialization
