@@ -42,17 +42,13 @@ Eigen::Matrix4d Transforms::viewTransform(Eigen::Vector3d X, Eigen::Vector3d Y, 
 	//Construct a matrix using Eigen's block operations to splice
 	//the vectors in. Can't use nicer syntax since we're converting
 	//3d vectors into a 4d matrix, but this gets optimized by compiler
-	Matrix4d m;
-	m.block<3, 1>(0, 0) = X;
-	m.block<3, 1>(0, 1) = Y;
-	m.block<3, 1>(0, 2) = Z;
-	m.block<3, 1>(0, 3) = t;
+	Matrix4d axes = Matrix4d::Identity();
+	axes.block<3, 1>(0, 0) = X;
+	axes.block<3, 1>(0, 1) = Y;
+	axes.block<3, 1>(0, 2) = Z;
 
-	//Set bottom row and homogeneous coordinate
-	m(3, 0) = 0;
-	m(3, 1) = 0;
-	m(3, 2) = 0;
-	m(3, 3) = 1;
+	Matrix4d trans = Matrix4d::Identity();
+	trans.block<3, 1>(0, 3) = t;
 
-	return m;
+	return axes * trans;
 }
