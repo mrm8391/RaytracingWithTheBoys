@@ -42,9 +42,6 @@
     <ClInclude Include="include\renderer\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\renderer\Matrix.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="extern\include\eigen\Cholesky\LDLT.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -873,6 +870,9 @@
     <ClInclude Include="include\prims\Triangle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\utils\Transforms.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\prims\Plane.cpp">
@@ -896,9 +896,6 @@
     <ClCompile Include="src\renderer\Point.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\renderer\Matrix.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\renderer\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -909,6 +906,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\prims\Triangle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utils\Transforms.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

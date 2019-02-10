@@ -430,17 +430,16 @@
     <ClInclude Include="include\renderer\Camera.h" />
     <ClInclude Include="include\renderer\Imager.h" />
     <ClInclude Include="include\renderer\IntersectData.h" />
-    <ClInclude Include="include\renderer\Matrix.h" />
     <ClInclude Include="include\renderer\Point.h" />
     <ClInclude Include="include\renderer\Ray.h" />
     <ClInclude Include="include\renderer\Vector.h" />
     <ClInclude Include="include\renderer\World.h" />
+    <ClInclude Include="include\utils\Transforms.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\prims\Triangle.cpp" />
     <ClCompile Include="src\renderer\Camera.cpp" />
     <ClCompile Include="src\renderer\Imager.cpp" />
-    <ClCompile Include="src\renderer\Matrix.cpp" />
     <ClCompile Include="src\renderer\Point.cpp" />
     <ClCompile Include="src\renderer\Ray.cpp" />
     <ClCompile Include="src\renderer\Vector.cpp" />
@@ -449,6 +448,7 @@
     <ClCompile Include="src\prims\Plane.cpp" />
     <ClCompile Include="src\prims\Sphere.cpp" />
     <ClCompile Include="src\Raytracer.cpp" />
+    <ClCompile Include="src\utils\Transforms.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
