@@ -41,7 +41,7 @@ IntersectData* Triangle::intersect(Ray ray)
 		Q.dot(ray.direction)
 	);
 
-	// Point (w, u, v) = 1/(P*e1) * preWuv
+	// Point (omega, u, v) = 1/(P*e1) * preWuv
 	double divisor = P.dot(e1);
 	
 	// If P * e1 = 0, ray is parallel to triangle, and there is no intersection
@@ -53,7 +53,7 @@ IntersectData* Triangle::intersect(Ray ray)
 	double m = 1.0 / divisor;
 
 	// Calculate w, u, v
-	double w = m*preWuv.vec[0]; // w will be distance along ray of intersection point
+	double omega = m*preWuv.vec[0]; // w will be distance along ray of intersection point
 	double u = m*preWuv.vec[1];
 	double v = m*preWuv.vec[2];
 
@@ -62,23 +62,14 @@ IntersectData* Triangle::intersect(Ray ray)
 		return NULL;
 	}
 
-	/* Does not seem to work
-	// barycentric to world conversion: u*p0 + v*p1 + w*p2
+	// Calculate intersect in world coordinates from origin of ray, direction of ray, and distance along direction.
 	Point worldCoordsIntersection(
-		u*p0.vec[0] + v*p1.vec[0] + w*p2.vec[0],
-		u*p0.vec[1] + v*p1.vec[1] + w*p2.vec[1],
-		u*p0.vec[2] + v*p1.vec[2] + w*p2.vec[2]
-	);
-	*/
-
-	// We know origin of ray, direction of ray, and distance along direction of that ray where intersection is. Calculate intersect in world coordinates.
-	Point worldCoordsIntersection(
-		(w * ray.direction.vec[0]) + ray.origin.vec[0],
-		(w * ray.direction.vec[1]) + ray.origin.vec[1],
-		(w * ray.direction.vec[2]) + ray.origin.vec[2]);
+		(omega * ray.direction.vec[0]) + ray.origin.vec[0],
+		(omega * ray.direction.vec[1]) + ray.origin.vec[1],
+		(omega * ray.direction.vec[2]) + ray.origin.vec[2]);
 
 	// If needed in future: e1 x e2 gives the normal
-	IntersectData * intersect = new IntersectData(w, color, worldCoordsIntersection);
+	IntersectData * intersect = new IntersectData(omega, color, worldCoordsIntersection);
 
 	return intersect;
 }

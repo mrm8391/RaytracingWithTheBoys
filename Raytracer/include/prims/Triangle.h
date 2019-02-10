@@ -19,6 +19,7 @@ public:
 
 	/*
 	Calculates point of intersection, in world coordinates, of ray with triangle.
+	Ray's direction may be normalized or not normalized, does not matter. 
 		Returns NULL if there is no intersection between the ray and the triangle.
 		Otherwise, returns pointer to single IntersectData instance with distance and color info.
 	*/
