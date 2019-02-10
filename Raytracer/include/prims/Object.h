@@ -18,6 +18,9 @@ class Object {
 public:
 	Point pos;
 
+	// For now, a 0-1 value
+	double color;
+
 	Object();
 
 	// Returns array of intersections with that object
