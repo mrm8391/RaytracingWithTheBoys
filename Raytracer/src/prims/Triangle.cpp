@@ -62,15 +62,6 @@ IntersectData* Triangle::intersect(Ray ray)
 		return NULL;
 	}
 
-	/* Does not seem to work
-	// barycentric to world conversion: u*p0 + v*p1 + w*p2
-	Point worldCoordsIntersection(
-		u*p0.vec[0] + v*p1.vec[0] + w*p2.vec[0],
-		u*p0.vec[1] + v*p1.vec[1] + w*p2.vec[1],
-		u*p0.vec[2] + v*p1.vec[2] + w*p2.vec[2]
-	);
-	*/
-
 	// We know origin of ray, direction of ray, and distance along direction of that ray where intersection is. Calculate intersect in world coordinates.
 	Point worldCoordsIntersection(
 		(w * ray.direction.vec[0]) + ray.origin.vec[0],
