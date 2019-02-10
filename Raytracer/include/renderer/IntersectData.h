@@ -19,11 +19,17 @@ typedef struct IntersectData_{
 	//Point at which the intersection occurs (optional)
 	Point intersection;
 
-	IntersectData_()
+	//If true, no intersection occurs
+	bool noIntersect;
+
+	/*
+	Default constructor to indicate no intersection
+	*/
+	IntersectData_() : noIntersect(true)
 	{
 	}
 
-	IntersectData_(double d, double c, Point i) : distance(d), color(c), intersection(i) 
+	IntersectData_(double d, double c, Point i) : distance(d), color(c), intersection(i), noIntersect(false)
 	{
 	}
 

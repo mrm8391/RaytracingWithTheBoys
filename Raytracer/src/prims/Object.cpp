@@ -20,9 +20,9 @@ Object::Object(const Object & other)
 	this->pos = Point(other.pos.vec[0], other.pos.vec[1], other.pos.vec[2]);
 }
 
-IntersectData * Object::intersect(Ray ray)
+IntersectData Object::intersect(Ray ray)
 {
-	return 0;
+	return IntersectData();
 }
 
 void Object::translate(double x, double y, double z)
