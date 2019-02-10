@@ -77,9 +77,6 @@ IntersectData* Triangle::intersect(Ray ray)
 		(w * ray.direction.vec[1]) + ray.origin.vec[1],
 		(w * ray.direction.vec[2]) + ray.origin.vec[2]);
 
-	// STAND-IN
-	double color = 0.5;
-
 	// If needed in future: e1 x e2 gives the normal
 	IntersectData * intersect = new IntersectData(w, color, worldCoordsIntersection);
 
