@@ -19,6 +19,7 @@ Object::Object(const Object & other)
 {
 	this->id = other.id;
 	this->pos = Point(other.pos.vec[0], other.pos.vec[1], other.pos.vec[2]);
+	this->color = other.color;
 }
 
 IntersectData Object::intersect(Ray ray)

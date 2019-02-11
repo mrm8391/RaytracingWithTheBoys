@@ -1,6 +1,7 @@
 
 #include <vector>
 #include <Eigen/Core>
+#include <iostream>
 
 #include <renderer/Camera.h>
 #include <renderer/Point.h>
