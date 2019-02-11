@@ -119,11 +119,12 @@ std::vector<std::vector<double>> Camera::render(World world)
 			for (Object &obj : this->objects) {
 				
 				IntersectData inter = obj.intersect(rayToPixel);
-				if (!inter.noIntersect && inter.distance < closestInter.distance) {
-					closestInter = inter;
-					closestObj = obj;
+				if (!inter.noIntersect) {
+					if (closestInter.noIntersect || inter.distance < closestInter.distance) {
+						closestInter = inter;
+						closestObj = obj;
+					}
 				}
-			}
 
 			if (!closestInter.noIntersect) {
 				pixels[x][y] = closestInter.color;
