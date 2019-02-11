@@ -12,6 +12,7 @@ Object::Object(double x, double y, double z) {
 	Object::NEXT_ID++;
 
 	this->pos = Point(x, y, z);
+	this->color = 0.0;
 }
 
 Object::Object(const Object & other)
