@@ -7,11 +7,13 @@ renderer.
 #define RT_RAY_H
 
 #include <renderer/Point.h>
+#include <renderer/Vector.h>
 
 class Ray {
 	
 public:
 	Ray();
+	Ray(Point p, Vector dir);
 
 	// The ray's starting point
 	Point origin;

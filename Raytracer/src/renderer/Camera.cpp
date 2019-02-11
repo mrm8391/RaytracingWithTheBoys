@@ -15,11 +15,11 @@ using namespace std;
 
 //Static runtime constant initialization
 
-double Camera::SCREEN_WIDTH = 50.0;
-double Camera::SCREEN_HEIGHT = 50.0;
+double Camera::SCREEN_WIDTH = 10.0;
+double Camera::SCREEN_HEIGHT = 10.0;
 
-unsigned int Camera::NUM_PIXELS_HORIZONTAL = 50;
-unsigned int Camera::NUM_PIXELS_VERTICAL = 50;
+unsigned int Camera::NUM_PIXELS_HORIZONTAL = 10;
+unsigned int Camera::NUM_PIXELS_VERTICAL = 10;
 
 double Camera::PIXEL_WIDTH = Camera::SCREEN_WIDTH / Camera::NUM_PIXELS_HORIZONTAL;
 double Camera::PIXEL_HEIGHT = Camera::SCREEN_HEIGHT / Camera::NUM_PIXELS_VERTICAL;
@@ -50,7 +50,17 @@ Camera::Camera(Point pos, Vector look, Vector base)
 
 std::vector<std::vector<double>> Camera::render(World world)
 {
+
+	//Initialize virtual screen values. Default value/bg color is
+	//maximum intensity, white.
 	vector<vector<double>> pixels;
+	for (int i = 0; i < Camera::NUM_PIXELS_HORIZONTAL; i++) {
+		pixels.push_back(vector<double>());
+
+		for (int j = 0; j < Camera::NUM_PIXELS_VERTICAL; j++) {
+			pixels[i].push_back(1.0);
+		}
+	}
 
 
 	//Nuke current object list, so it can be repopulated.
@@ -69,14 +79,57 @@ std::vector<std::vector<double>> Camera::render(World world)
 		this->objects.push_back(cameraObj);
 	}
 
-	/*
-	RAYTRACING PLACEHOLDER
-	RAYTRACING PLACEHOLDER
-	RAYTRACING PLACEHOLDER
-	RAYTRACING PLACEHOLDER
-	RAYTRACING PLACEHOLDER
-	RAYTRACING PLACEHOLDER
-	*/
+	//Start spawning rays.
+	//In accordance with the camera coordinate system,
+	//+x goes to the right of screen, +y to the top of screen,
+	//and all pixels on the screen are at z=focal point
+
+	//Start point of ray tracer, beginning at bottom left.
+	Point startPoint(
+		(-0.5)*Camera::SCREEN_WIDTH,
+		(-0.5)*Camera::SCREEN_HEIGHT,
+		Camera::FOCAL_POINT
+	);
+
+	//Offset to get to center of pixel
+	double pixelYOffset = (0.5)*Camera::PIXEL_HEIGHT,
+		pixelXOffset = (0.5)*Camera::PIXEL_WIDTH;
+
+	Point cameraOrigin(0, 0, 0);
+
+	for (int x = 0; x < Camera::NUM_PIXELS_HORIZONTAL; x++) {
+
+		for (int y = 0; y < Camera::NUM_PIXELS_VERTICAL; y++) {
+
+			//Center of current pixel of virtual scren
+			Point pixelPos(
+				startPoint.vec[0] + (Camera::PIXEL_WIDTH * x) + pixelXOffset,
+				startPoint.vec[1] + (Camera::PIXEL_HEIGHT * y) + pixelYOffset,
+				Camera::FOCAL_POINT
+			);
+
+			Vector rayDir = pixelPos.subtract(cameraOrigin);
+			rayDir.normalize();
+
+			Ray rayToPixel(pixelPos, rayDir);
+
+			IntersectData closestInter;
+			Object closestObj;
+
+			for (Object &obj : this->objects) {
+				
+				IntersectData inter = obj.intersect(rayToPixel);
+				if (!inter.noIntersect && inter.distance < closestInter.distance) {
+					closestInter = inter;
+					closestObj = obj;
+				}
+			}
+
+			if (!closestInter.noIntersect) {
+				pixels[x][y] = closestInter.color;
+			}
+		}
+	}
 
 	//Set instance variables
 	this->currentWorld = world;

@@ -45,8 +45,14 @@ public:
 	*/
 	Object(const Object &other);
 
-	// Returns array of intersections with that object
-	virtual IntersectData* intersect(Ray ray);
+	/*
+	Performs an intersection test on the object with a ray, finding the closest intersectino point.
+	IntersectData struct is returned containing info on intersection point and color of object.
+	IntersectData.noIntersect is true if there is no intersection between the ray and the object.
+
+	The ray must be normalized, otherwise there will be undefined behavior.
+	*/
+	virtual IntersectData intersect(Ray ray);
 
 	virtual void translate(double x, double y, double z);
 
