@@ -81,3 +81,18 @@ void Triangle::translate(double x, double y, double z) {
 void Triangle::move(double x, double y, double z)
 {
 }
+
+void Triangle::transform(Eigen::Matrix4d matr)
+{
+	// Transform each point of the triangle
+	p0.transform(matr);
+	p1.transform(matr);
+	p2.transform(matr);
+}
+
+Object * Triangle::transformAndCopy(Eigen::Matrix4d matr)
+{
+	Triangle* t = new Triangle(*this);
+	t->transform(matr);
+	return t;
+}

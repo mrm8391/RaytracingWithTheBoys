@@ -72,7 +72,7 @@ public:
 
 	@return New, transformed version of current object. Transformed object will have the same ID.
 	*/
-	virtual Object transformAndCopy(Eigen::Matrix4d matr);
+	virtual Object* transformAndCopy(Eigen::Matrix4d matr);
 };
 
 #endif

@@ -25,3 +25,16 @@ Vector Point::subtract(Point & other)
 
 	return Vector(x,y,z);
 }
+
+void Point::transform(Eigen::Matrix4d matr)
+{
+	Eigen::Vector4d homogenous;
+	homogenous << vec[0], vec[1], vec[2], 1;
+
+	Eigen::Vector4d result;
+	result = matr * homogenous;
+
+	for (int i = 0; i < 3; i++) {
+		vec[i] = result[i];
+	}
+}
