@@ -38,7 +38,7 @@ void Object::transform(Eigen::Matrix4d matr)
 {
 }
 
-Object Object::transformAndCopy(Eigen::Matrix4d matr)
+Object* Object::transformAndCopy(Eigen::Matrix4d matr)
 {
-	return Object();
+	return &Object();
 }

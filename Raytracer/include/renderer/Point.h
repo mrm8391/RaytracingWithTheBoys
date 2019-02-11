@@ -20,6 +20,8 @@ public:
 	// Returns a Vector with the values of (this.x - other.x, this.y - other.y, this.z - other.z)
 	Vector subtract(Point &other);
 
+	void transform(Eigen::Matrix4d matr);
+
 };
 
 #endif

@@ -67,3 +67,17 @@ void Sphere::translate(double x, double y, double z)
 void Sphere::move(double x, double y, double z)
 {
 }
+
+void Sphere::transform(Eigen::Matrix4d matr)
+{
+	// All we need to do is transform the point
+	pos.transform(matr);
+}
+
+Object* Sphere::transformAndCopy(Eigen::Matrix4d matr)
+{
+	Sphere* s = new Sphere(*this);
+	s->transform(matr);
+	return s;
+}
+

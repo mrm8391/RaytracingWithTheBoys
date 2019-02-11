@@ -24,9 +24,11 @@ using Eigen::StorageOptions;
 //using namespace Eigen;
 using Eigen::Vector3d;
 
+
 int main()
 {
-	World w;
+	Eigen::Vector4d test;
+	test << 0, 0, 0, 1;
 
 	Point f1(-100, -100, 0), f2(-100, 100, 0), f3(100, -100, 0), f4(0, 10, 0);
 	Triangle* floor1 = new Triangle(f1, f2, f3);
