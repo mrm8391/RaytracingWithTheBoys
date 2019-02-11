@@ -13,7 +13,7 @@ Model for a scene's world in the renderer.
 class World {
 	
 public:
-	std::vector<Object> objects;
+	std::vector<Object*> objects;
 	Point origin;
 	
 	/*
@@ -33,7 +33,7 @@ public:
 	
 	@return Id of inserted object
 	*/
-	unsigned int addObject(Object obj);
+	unsigned int addObject(Object* obj);
 
 	/*
 	Remove an object from the world based on its id.
@@ -52,7 +52,7 @@ public:
 
 	@return True if removal successful, false otherwise.
 	*/
-	bool removeObject(Object obj);
+	bool removeObject(Object* obj);
 };
 
 

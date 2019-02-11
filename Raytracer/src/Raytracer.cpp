@@ -14,6 +14,7 @@
 #include <utils/Transforms.h>
 #include <prims/Triangle.h>
 #include <prims/Sphere.h>
+#include <renderer/Imager.h>
 
 using namespace std;
 using Eigen::MatrixXd;
@@ -27,33 +28,29 @@ int main()
 {
 	World w;
 
-	Point f1(-10, 0, 0), f2(-10, 0, 10), f3(10, 0, 0), f4(10, 0, 10);
-	Triangle floor1(f1, f2, f3), floor2(f2, f3, f4);
+	Point f1(-100, -100, 0), f2(-100, 100, 0), f3(100, -100, 0), f4(0, 10, 0);
+	Triangle* floor1 = new Triangle(f1, f2, f3);
+	Triangle* floor2 = new Triangle(f4, f2, f1);
 
-	Point s1(0, 0, 0);
+	/*Point s1(0, 0, 0);
 	Sphere sphere1(s1, 2.0);
-	sphere1.color = 0.5;
+	sphere1.color = 0.5;*/
 
 	w.addObject(floor1);
-	w.addObject(floor2);
-	w.addObject(sphere1);
+	//w.addObject(floor2);
+	//w.addObject(sphere1);
 
-	Point camOrig(0, 2, 10);
+	Point camOrig(0, 0, 20);
 	Vector lookat(0, 0, 0), base(0, 1, 0);
 
 	Camera cam(camOrig, lookat, base);
 
 	auto pixels = cam.render(w);
 
-	for (int x = 0; x < pixels.size(); x++) {
-		for (int y = 0; y < pixels[x].size(); y++) {
+	Imager img(pixels);
 
-			int val = int(pixels[x][y] * 100);
-			cout << val << " ";
-		}
+	img.displayImage();
 
-		cout << endl;
-	}
 
     return 0;
 }

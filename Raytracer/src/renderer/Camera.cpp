@@ -18,17 +18,17 @@ using namespace std;
 double Camera::SCREEN_WIDTH = 10.0;
 double Camera::SCREEN_HEIGHT = 10.0;
 
-unsigned int Camera::NUM_PIXELS_HORIZONTAL = 10;
-unsigned int Camera::NUM_PIXELS_VERTICAL = 10;
+unsigned int Camera::NUM_PIXELS_HORIZONTAL = 100;
+unsigned int Camera::NUM_PIXELS_VERTICAL = 100;
 
 double Camera::PIXEL_WIDTH = Camera::SCREEN_WIDTH / Camera::NUM_PIXELS_HORIZONTAL;
 double Camera::PIXEL_HEIGHT = Camera::SCREEN_HEIGHT / Camera::NUM_PIXELS_VERTICAL;
 
-double Camera::FOCAL_POINT = 5.0;
+double Camera::FOCAL_POINT = 10.0;
 
 Camera::Camera(Point pos, Vector look, Vector base)
 {
-	objects = vector<Object>();
+	objects = vector<Object*>();
 	screen = vector<vector<double>>();
 
 	eyepoint = Point(pos);
@@ -65,7 +65,7 @@ std::vector<std::vector<double>> Camera::render(World world)
 
 	//Nuke current object list, so it can be repopulated.
 	//Do proper memory management if we use the heap later
-	this->objects = vector<Object>();
+	this->objects = vector<Object*>();
 
 	//Translation vector from world origin to camera position
 	Vector dX = world.origin.subtract(eyepoint);
@@ -73,8 +73,8 @@ std::vector<std::vector<double>> Camera::render(World world)
 	//set view transform with v as X-axis, u/up as Y-axis, and n/lookat as Z-axis
 	Matrix4d viewTransform = Transforms::viewTransform(v.vec, u.vec, n.vec, dX.vec);
 
-	for (Object &obj : world.objects) {
-		Object cameraObj = obj.transformAndCopy(viewTransform);
+	for (Object* obj : world.objects) {
+		Object* cameraObj = obj->transformAndCopy(viewTransform);
 
 		this->objects.push_back(cameraObj);
 	}
@@ -114,17 +114,18 @@ std::vector<std::vector<double>> Camera::render(World world)
 			Ray rayToPixel(pixelPos, rayDir);
 
 			IntersectData closestInter;
-			Object closestObj;
+			Object* closestObj;
 
-			for (Object &obj : this->objects) {
+			for (Object* obj : this->objects) {
 				
-				IntersectData inter = obj.intersect(rayToPixel);
+				IntersectData inter = obj->intersect(rayToPixel);
 				if (!inter.noIntersect) {
 					if (closestInter.noIntersect || inter.distance < closestInter.distance) {
 						closestInter = inter;
 						closestObj = obj;
 					}
 				}
+			}
 
 			if (!closestInter.noIntersect) {
 				pixels[x][y] = closestInter.color;
