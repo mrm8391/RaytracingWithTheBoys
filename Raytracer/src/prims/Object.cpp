@@ -1,16 +1,12 @@
 #include <prims/Object.h>
 
-unsigned int Object::NEXT_ID = 0;
-
 Object::Object() : Object(0,0,0)
 {
 	
 }
 
 Object::Object(double x, double y, double z) {
-	this->id = Object::NEXT_ID;
-	Object::NEXT_ID++;
-
+	this->id = 0;
 	this->pos = Point(x, y, z);
 	this->color = 0.0;
 }

@@ -15,6 +15,7 @@ class World {
 public:
 	std::vector<Object*> objects;
 	Point origin;
+	int nextId;
 	
 	/*
 	Default constructor, creating a world with origin (0,0,0)
@@ -27,13 +28,14 @@ public:
 	World(double x, double y, double z);
 
 	/*
-	Add an object to the world. Object assumed to be initialized and ready for display.
+	Add an object to the world and assign it an ID. 
+	Object assumed to be initialized and ready for display.
 
 	@param obj Object to add
 	
 	@return Id of inserted object
 	*/
-	unsigned int addObject(Object* obj);
+	int addObject(Object* obj);
 
 	/*
 	Remove an object from the world based on its id.

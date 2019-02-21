@@ -10,10 +10,14 @@ World::World(double x, double y, double z)
 {
 	this->origin = Point(x, y, z);
 	this->objects = vector<Object*>();
+	this->nextId = 1;
 }
 
-unsigned int World::addObject(Object* obj)
+int World::addObject(Object* obj)
 {
+	obj->id = this->nextId;
+	this->nextId++;
+
 	this->objects.push_back(obj);
 
 	return obj->id;

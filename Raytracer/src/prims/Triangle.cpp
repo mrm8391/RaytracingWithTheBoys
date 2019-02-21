@@ -87,6 +87,7 @@ Object * Triangle::copy()
 {
 	Triangle* t = new Triangle(*this);
 
+	t->id = this->id;
 	t->pos = this->pos;
 	t->color = this->color;
 	t->p0 = this->p0;

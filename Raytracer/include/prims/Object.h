@@ -16,16 +16,17 @@ These will be mathematically defined.
 class Object {
 
 public:
-	static unsigned int NEXT_ID;
 
 	Point pos;
 
 	// For now, a 0-1 value
 	double color;
-	unsigned int id;
+
+	// Object's id, for use by the world/camera
+	int id;
 
 	/*
-	Default constructor, placing object at origin and assigning a unique ID.
+	Default constructor, placing object at (0,0,0)
 
 	Only intended to be used by derivative classes, object shouldn't
 	be constructed alone.

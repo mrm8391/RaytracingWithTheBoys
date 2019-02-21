@@ -82,6 +82,7 @@ Object * Sphere::copy()
 {
 	Sphere* s = new Sphere(*this);
 
+	s->id = this->id;
 	s->pos = Point(this->pos);
 	s->color = this->color;
 	s->radius = this->radius;
