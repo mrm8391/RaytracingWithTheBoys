@@ -38,15 +38,7 @@ public:
 	Object(double x, double y, double z);
 
 	/*
-	Copy constructor; create new object from an old one. Does not assign a new ID,
-	copies ID from old object.
-
-	@param other Object to copy
-	*/
-	Object(const Object &other);
-
-	/*
-	Performs an intersection test on the object with a ray, finding the closest intersectino point.
+	Performs an intersection test on the object with a ray, finding the closest intersection point.
 	IntersectData struct is returned containing info on intersection point and color of object.
 	IntersectData.noIntersect is true if there is no intersection between the ray and the object.
 
@@ -69,16 +61,7 @@ public:
 	*/
 	virtual void transform(Eigen::Matrix4d matr);
 
-	/*
-	Copy object, and transform it with a transformation matrix. Intended for use when
-	transforming world objects into camera space. New object will not have a unique ID, will
-	have the ID of this object.
-
-	@param matr Transformation matrix to apply to the object
-
-	@return New, transformed version of current object. Transformed object will have the same ID.
-	*/
-	virtual Object* transformAndCopy(Eigen::Matrix4d matr);
+	virtual Object* copy();
 };
 
 #endif

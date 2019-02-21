@@ -1,6 +1,10 @@
 #include <prims/Sphere.h>
 #include <algorithm>
 
+Sphere::Sphere() : Object()
+{
+}
+
 IntersectData Sphere::intersect(Ray ray)
 {
 	double dx = ray.direction.vec[0];
@@ -74,10 +78,16 @@ void Sphere::transform(Eigen::Matrix4d matr)
 	pos.transform(matr);
 }
 
-Object* Sphere::transformAndCopy(Eigen::Matrix4d matr)
+Object * Sphere::copy()
 {
 	Sphere* s = new Sphere(*this);
-	s->transform(matr);
+
+	s->pos = Point(this->pos);
+	s->color = this->color;
+	s->radius = this->radius;
+
 	return s;
 }
+
+
 

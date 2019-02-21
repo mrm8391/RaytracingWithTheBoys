@@ -43,15 +43,7 @@ public:
 	*/
 	void transform(Eigen::Matrix4d matr);
 
-	/*
-	Copy sphere, and transform it with a transformation matrix. New object will not have a unique ID, will
-	have the ID of this object.
-
-	@param matr Transformation matrix to apply to the object
-
-	@return New, transformed version of current object. Transformed object will have the same ID.
-	*/
-	Object* transformAndCopy(Eigen::Matrix4d matr);
+	Object* copy();
 };
 
 #endif

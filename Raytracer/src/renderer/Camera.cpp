@@ -76,7 +76,8 @@ std::vector<std::vector<double>> Camera::render(World world)
 	Matrix4d viewTransform = Transforms::viewTransform(v.vec, u.vec, n.vec, dX.vec);
 
 	for (Object* obj : world.objects) {
-		Object* cameraObj = obj->transformAndCopy(viewTransform);
+		Object* cameraObj = obj->copy();
+		cameraObj->transform(viewTransform);
 
 		this->objects.push_back(cameraObj);
 	}

@@ -83,9 +83,15 @@ void Triangle::transform(Eigen::Matrix4d matr)
 	p2.transform(matr);
 }
 
-Object * Triangle::transformAndCopy(Eigen::Matrix4d matr)
+Object * Triangle::copy()
 {
 	Triangle* t = new Triangle(*this);
-	t->transform(matr);
+
+	t->pos = this->pos;
+	t->color = this->color;
+	t->p0 = this->p0;
+	t->p1 = this->p1;
+	t->p2 = this->p2;
+
 	return t;
 }
