@@ -12,11 +12,15 @@ Imager::Imager(vector<vector<double>> pixels)
 	// Initialize img with data from @param pixels
 	for (int x = 0; x < width; x++) {
 		for (int y = 0; y < height; y++) {
+
+			//invert y to work with cimg
+			int realY = height - y - 1;
+
 			// Calculate grayscale value of pixel
 			int value = int(255.0 * pixels[x][y]);
 
 			// Set each of the three color channels to this value (results in grayscale)
-			for(int i = 0; i < 3; i++) imgA(width-x-1, height-y-1, i) = value;
+			for(int i = 0; i < 3; i++) imgA(x, realY, i) = value;
 		}
 	}
 

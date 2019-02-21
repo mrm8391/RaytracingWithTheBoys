@@ -40,11 +40,13 @@ Camera::Camera(Point pos, Vector look, Vector base)
 	//Positive z-axis in direction of lookat
 	//Positive y-axis in direction of up, above camera and orthogonal to lookat
 	//Positive x-axis to right of camera, orthogonal to lookat and up
-
+	
+	//For world space, we are treating +x to be right, +y to be up, and +z to be away from the viewer.
+	//Thus, cross products are done in an unconventional order.
 	n = Vector(lookat);
-	v = n.cross(base);
+	v = base.cross(n);
 	v.normalize();
-	up = v.cross(n);
+	up = n.cross(v);
 	up.normalize();
 	u = Vector(up);
 }
