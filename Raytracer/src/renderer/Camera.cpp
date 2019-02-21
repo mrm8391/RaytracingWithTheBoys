@@ -65,8 +65,7 @@ std::vector<std::vector<double>> Camera::render(World world)
 
 
 	//Nuke current object list, so it can be repopulated.
-	//Do proper memory management if we use the heap later
-	this->objects = vector<Object*>();
+	this->clear();
 
 	//Translation vector from world origin to camera position
 	Vector dX = world.origin.subtract(eyepoint);
@@ -139,4 +138,13 @@ std::vector<std::vector<double>> Camera::render(World world)
 	this->currentViewTransform = viewTransform;
 
 	return pixels;
+}
+
+void Camera::clear()
+{
+	for (int i = objects.size() - 1; i >= 0; i--) {
+		Object* cur = objects[i];
+		delete cur;
+		objects.pop_back();
+	}
 }

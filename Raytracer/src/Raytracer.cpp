@@ -63,6 +63,10 @@ int main()
 
 	img.displayImage();
 
+	//Deallocate object memory usage
+	w.clear();
+	cam.clear();
+
     return 0;
 }
 

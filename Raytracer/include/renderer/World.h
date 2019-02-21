@@ -53,6 +53,11 @@ public:
 	@return True if removal successful, false otherwise.
 	*/
 	bool removeObject(Object* obj);
+
+	/*
+	Clear all objects in world and deallocate from the heap.
+	*/
+	void clear();
 };
 
 

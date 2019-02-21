@@ -84,6 +84,11 @@ public:
 	@return 2D stl vector of pixel intensities
 	*/
 	std::vector<std::vector<double>> render(World world);
+
+	/*
+	Clear all objects in camera and deallocate from the heap. Identical to world's clear function.
+	*/
+	void clear();
 };
 
 #endif

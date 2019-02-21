@@ -38,3 +38,12 @@ bool World::removeObject(Object* obj)
 {
 	return removeObject(obj->id);
 }
+
+void World::clear()
+{
+	for (int i = objects.size()-1; i >= 0; i--) {
+		Object* cur = objects[i];
+		delete cur;
+		objects.pop_back();
+	}
+}
