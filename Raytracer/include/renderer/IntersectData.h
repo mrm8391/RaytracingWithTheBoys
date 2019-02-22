@@ -16,6 +16,9 @@ typedef struct IntersectData_{
 	//Color of the material hit by the ray
 	double color;
 
+	// Normal vector of the object at the point of intersection
+	Vector normal;
+
 	//Point at which the intersection occurs (optional)
 	Point intersection;
 
@@ -29,7 +32,7 @@ typedef struct IntersectData_{
 	{
 	}
 
-	IntersectData_(double d, double c, Point i) : distance(d), color(c), intersection(i), noIntersect(false)
+	IntersectData_(double d, double c, Vector n, Point i) : distance(d), color(c), normal(n), intersection(i), noIntersect(false) // TODO add normal into this constructor
 	{
 	}
 

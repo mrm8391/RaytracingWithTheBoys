@@ -60,8 +60,15 @@ IntersectData Sphere::intersect(Ray ray)
 		y0 + (dy * omega),
 		z0 + (dz * omega));
 
-	// How to calculate normal is on slides
-	return IntersectData(omega, color, worldCoordsIntersection);
+	// Normal vector: (x, y, z) = (xi–xc), (yi–yc), (zi–zc)) normalized, where xi, yi, and zi are intersection coords
+	Vector normal(
+		worldCoordsIntersection.vec[0] - xC,
+		worldCoordsIntersection.vec[1] - yC,
+		worldCoordsIntersection.vec[2] - zC);
+
+	normal.normalize();
+
+	return IntersectData(omega, color, normal, worldCoordsIntersection);
 }
 
 void Sphere::translate(double x, double y, double z)
