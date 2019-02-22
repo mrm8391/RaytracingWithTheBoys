@@ -12,6 +12,7 @@ These will be mathematically defined.
 #include <renderer/Point.h>
 #include <renderer/Ray.h>
 #include <renderer/IntersectData.h>
+#include <renderer/lighting/LightSource.h>
 
 class Object {
 
@@ -46,6 +47,23 @@ public:
 	The ray must be normalized, otherwise there will be undefined behavior.
 	*/
 	virtual IntersectData intersect(Ray ray);
+
+	/*
+	At a given point of intersection, compute the radiance collected on that point for the object.
+
+	By this point, camera has spawned rays to determine which lights have rays hitting the object.
+	This method only gets called for light sources successfully reaching this intersection.
+
+	An illumination model is applied to the incoming radiance, computing the output radiance from
+	the intersection point.
+
+	@param light - Light source hitting the point
+	@param incoming - Incoming ray that is intersecting with object
+	@param inter - Intersection point on the object.
+
+	@return Resulting radiance after applying an illumination model on the point
+	*/
+	virtual Vector shade(LightSource light, Ray incoming, IntersectData inter);
 
 	virtual void translate(double x, double y, double z);
 

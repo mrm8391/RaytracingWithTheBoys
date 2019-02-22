@@ -16,6 +16,11 @@ IntersectData Object::intersect(Ray ray)
 	return IntersectData();
 }
 
+Vector Object::shade(LightSource light, Ray incoming, IntersectData inter)
+{
+	return Vector();
+}
+
 void Object::translate(double x, double y, double z)
 {
 }
