@@ -13,6 +13,8 @@ These will be mathematically defined.
 #include <renderer/Ray.h>
 #include <renderer/IntersectData.h>
 #include <renderer/lighting/LightSource.h>
+#include <renderer/lighting/ShadingModel.h>
+#include <renderer/lighting/PhongShading.h>
 
 class Object {
 
@@ -26,6 +28,9 @@ public:
 	// Object's id, for use by the world/camera
 	int id;
 
+	// Illumination model for determining lighting/reflection on surface
+	ShadingModel shadingModel;
+
 	/*
 	Default constructor, placing object at (0,0,0)
 
@@ -37,7 +42,7 @@ public:
 	/*
 	Construct an object at a specified position, and assign it a unique ID.
 	*/
-	Object(double x, double y, double z);
+	Object(double x, double y, double z, ShadingModel shad = PhongShading());
 
 	/*
 	Performs an intersection test on the object with a ray, finding the closest intersection point.

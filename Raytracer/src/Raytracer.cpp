@@ -27,9 +27,6 @@ using Eigen::Vector3d;
 
 int main()
 {
-	Eigen::Vector4d test;
-	test << 0, 0, 0, 1;
-
 	Point f1(-2, 0, -6), f2(-2, 0, 6), f3(2, 0, 6), f4(2, 0, -6);
 	Triangle* floor1 = new Triangle(f1, f2, f4);
 	Triangle* floor2 = new Triangle(f4, f2, f3);

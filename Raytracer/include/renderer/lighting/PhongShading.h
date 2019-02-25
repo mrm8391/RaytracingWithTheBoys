@@ -9,8 +9,9 @@ Phong shading model
 #include <renderer/Vector.h>
 #include <renderer/IntersectData.h>
 #include <renderer/Ray.h>
+#include <renderer/lighting/ShadingModel.h>
 
-class PhongShading {
+class PhongShading : public ShadingModel{
 
 public:
 	PhongShading();

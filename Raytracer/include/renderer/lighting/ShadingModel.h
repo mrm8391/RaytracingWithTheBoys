@@ -18,10 +18,12 @@ public:
 	ShadingModel();
 
 	/*
-	Compute shading based off of intersection and light.
+	Virtual base method to compute shading based off of intersection and light.
 	Object material properties will be accessible in IntersectData.
 	This computation assumes that the incoming ray is not a shadow ray,
 	and that the ray successfully reaches the light.
+
+	Default base method merely returns the object's color.
 
 	@param light - Light source to base illumination off of
 	@param incoming - Incoming ray that caused the intersection, used for reflection
@@ -30,7 +32,7 @@ public:
 	@return Radiance triple of resulting light after applying shading
 	*/
 
-	Vector shade(LightSource light, Ray incoming, IntersectData inter);
+	virtual Vector shade(LightSource light, Ray incoming, IntersectData inter);
 
 };
 
