@@ -36,3 +36,28 @@ Vector Vector::cross(Vector other)
 	Vector3d result = this->vec.cross(other.vec);
 	return Vector(result[0], result[1], result[2]);
 }
+
+Vector Vector::reflect(Vector normal)
+{
+	//r = d - 2(2*n)n
+
+	double dprod = this->dot(normal);
+
+	Vector scaledNorm = normal.scale(2 * dprod);
+
+	Vector res = this->subtract(scaledNorm);
+
+	return res;
+}
+
+Vector Vector::scale(double value)
+{
+	return Vector(this->vec[0]*value, this->vec[1] * value, this->vec[2] * value);
+}
+
+Vector Vector::subtract(Vector other)
+{
+	Vector3d res = this->vec - other.vec;
+
+	return Vector(res[0], res[1], res[2]);
+}

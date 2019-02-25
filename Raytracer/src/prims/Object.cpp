@@ -5,15 +5,23 @@ Object::Object() : Object(0,0,0)
 	
 }
 
-Object::Object(double x, double y, double z) {
+//Note: ShadingModel parameter defaults to PhongShading in Object.h
+Object::Object(double x, double y, double z, ShadingModel shad) {
 	this->id = 0;
 	this->pos = Point(x, y, z);
 	this->color = 0.0;
+
+	this->shadingModel = shad;
 }
 
 IntersectData Object::intersect(Ray ray)
 {
 	return IntersectData();
+}
+
+Vector Object::shade(LightSource light, Ray incoming, IntersectData inter)
+{
+	return this->shadingModel.shade(light, incoming, inter);
 }
 
 void Object::translate(double x, double y, double z)
