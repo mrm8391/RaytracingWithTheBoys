@@ -86,6 +86,12 @@ public:
 	std::vector<std::vector<double>> render(World world);
 
 	/*
+	This method tells you what object this ray first intersects with.
+	If no intersection with an object is found, then its returned IntersectData instance will have noIntersect = TRUE.
+	*/
+	IntersectData spawnRay(Point position, Vector rayDir);
+
+	/*
 	Clear all objects in camera and deallocate from the heap. Identical to world's clear function.
 	*/
 	void clear();

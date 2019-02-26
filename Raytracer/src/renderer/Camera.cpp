@@ -112,6 +112,9 @@ std::vector<std::vector<double>> Camera::render(World world)
 			);
 
 			Vector rayDir = pixelPos.subtract(cameraOrigin);
+
+			IntersectData closestInter = spawnRay(pixelPos, rayDir);
+/*
 			rayDir.normalize();
 
 			Ray rayToPixel(pixelPos, rayDir);
@@ -129,9 +132,10 @@ std::vector<std::vector<double>> Camera::render(World world)
 					}
 				}
 			}
-
+*/
 			if (!closestInter.noIntersect) {
 				pixels[x][y] = closestInter.color;
+				// closestInter.intersectedObject is the closest object
 			}
 		}
 	}
@@ -142,6 +146,39 @@ std::vector<std::vector<double>> Camera::render(World world)
 
 	return pixels;
 }
+
+// Usage for this method is like this: 
+// We found an intersection between an object and a camera ray. Grand. We need to know its illumination.
+// Spawn a ray from the intersect point to the light source point
+// Intersect checks with every object in scene 
+// If there is an intersection with THIS lighting ray and an object, then that light source is blocked
+// Otherwise, that light source shines on the point, return radiance onto that point. 
+
+/*
+This method tells you what object this ray first intersects with. 
+If no intersection with an object is found, then its returned IntersectData instance will have noIntersect = TRUE. 
+*/
+IntersectData Camera::spawnRay(Point position, Vector rayDir) {
+	rayDir.normalize();
+
+	Ray ray(position, rayDir);
+
+	IntersectData closestInter;
+
+	for (Object* obj : this->objects) {
+
+		IntersectData inter = obj->intersect(ray);
+		if (!inter.noIntersect) {
+			if (closestInter.noIntersect || inter.distance < closestInter.distance) {
+				closestInter = inter;
+			}
+		}
+	}
+
+	return closestInter; 
+}
+
+
 
 void Camera::clear()
 {

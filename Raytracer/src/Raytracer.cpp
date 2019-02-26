@@ -67,6 +67,8 @@ int main()
 	w.clear();
 	cam.clear();
 
+	//Object * h = 0;// obj(1, 2, 3);
+
     return 0;
 }
 

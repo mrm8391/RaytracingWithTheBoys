@@ -13,7 +13,7 @@ typedef struct IntersectData_{
 	//How far along the ray the intersection occurs
 	double distance;
 
-	//Color of the material hit by the ray
+	//Color of the material hit by the ray TODO potentially remove this
 	double color;
 
 	// Normal vector of the object at the point of intersection
@@ -25,6 +25,8 @@ typedef struct IntersectData_{
 	//If true, no intersection occurs
 	bool noIntersect;
 
+	// A pointer to the object which was found to be intersected
+
 	/*
 	Default constructor to indicate no intersection
 	*/
@@ -32,10 +34,12 @@ typedef struct IntersectData_{
 	{
 	}
 
-	IntersectData_(double d, double c, Vector n, Point i) : distance(d), color(c), normal(n), intersection(i), noIntersect(false) // TODO add normal into this constructor
+	IntersectData_(double d, double c, Vector n, Point i) : distance(d), color(c), normal(n), intersection(i), noIntersect(false) 
 	{
 	}
 
 } IntersectData;
 
 #endif
+
+// 1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,0,0,0,0,0,2,2,2,2,2,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,0,0,0,0,0,2,2,2,2,2,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,0,0,0,0,0,2,2,2,2,2,1,2,3,4,5,6,7,8,9,0
