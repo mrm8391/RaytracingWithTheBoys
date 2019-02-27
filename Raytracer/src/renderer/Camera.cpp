@@ -114,28 +114,12 @@ std::vector<std::vector<double>> Camera::render(World world)
 			Vector rayDir = pixelPos.subtract(cameraOrigin);
 
 			IntersectData closestInter = spawnRay(pixelPos, rayDir);
-/*
-			rayDir.normalize();
 
-			Ray rayToPixel(pixelPos, rayDir);
-
-			IntersectData closestInter;
-			Object* closestObj;
-
-			for (Object* obj : this->objects) {
-				
-				IntersectData inter = obj->intersect(rayToPixel);
-				if (!inter.noIntersect) {
-					if (closestInter.noIntersect || inter.distance < closestInter.distance) {
-						closestInter = inter;
-						closestObj = obj;
-					}
-				}
-			}
-*/
 			if (!closestInter.noIntersect) {
 				pixels[x][y] = closestInter.color;
-				// closestInter.intersectedObject is the closest object
+				// need to spawn ray from closestInter.intersection to the light source.
+				// if it reaches the light source without intersection, then closestInter.intersectedObject->shade() gives the color
+				// otherwise ?
 			}
 		}
 	}
@@ -177,7 +161,6 @@ IntersectData Camera::spawnRay(Point position, Vector rayDir) {
 
 	return closestInter; 
 }
-
 
 
 void Camera::clear()
