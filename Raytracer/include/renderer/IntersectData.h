@@ -22,7 +22,7 @@ typedef struct IntersectData_{
 	Vector normal;
 
 	// The object at the point of intersection
-	Object * closestObject;
+	Object * intersectedObject;
 
 	//Point at which the intersection occurs (optional)
 	Point intersection;
@@ -39,7 +39,7 @@ typedef struct IntersectData_{
 	{
 	}
 
-	IntersectData_(double d, double c, Vector n, Object * obj, Point i) : distance(d), color(c), normal(n), closestObject(obj), intersection(i), noIntersect(false) 
+	IntersectData_(double d, double c, Vector n, Object * obj, Point i) : distance(d), color(c), normal(n), intersectedObject(obj), intersection(i), noIntersect(false) 
 	{
 	}
 
