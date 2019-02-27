@@ -8,6 +8,8 @@ a ray-object intersection.
 
 #include <renderer/Point.h>
 
+class Object;
+
 typedef struct IntersectData_{
 
 	//How far along the ray the intersection occurs
@@ -18,6 +20,9 @@ typedef struct IntersectData_{
 
 	// Normal vector of the object at the point of intersection
 	Vector normal;
+
+	// The object at the point of intersection
+	Object * closestObject;
 
 	//Point at which the intersection occurs (optional)
 	Point intersection;
@@ -34,7 +39,7 @@ typedef struct IntersectData_{
 	{
 	}
 
-	IntersectData_(double d, double c, Vector n, Point i) : distance(d), color(c), normal(n), intersection(i), noIntersect(false) 
+	IntersectData_(double d, double c, Vector n, Object * obj, Point i) : distance(d), color(c), normal(n), closestObject(obj), intersection(i), noIntersect(false) 
 	{
 	}
 

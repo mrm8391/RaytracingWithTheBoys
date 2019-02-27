@@ -67,7 +67,7 @@ IntersectData Triangle::intersect(Ray ray)
 	Vector normal = e1.cross(e2);
 	normal.normalize();
 
-	return IntersectData(omega, color, normal, worldCoordsIntersection);
+	return IntersectData(omega, color, normal, this, worldCoordsIntersection);
 }
 
 void Triangle::translate(double x, double y, double z) {
