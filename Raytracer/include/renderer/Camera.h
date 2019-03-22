@@ -38,6 +38,9 @@ public:
 	//Copy of world objects transformed to camera space
 	std::vector<Object*> objects;
 
+	//Copy of world lights transformed to camera space
+	std::vector<LightSource*> lights;
+
 	//Camera position, in world coordinates
 	Point eyepoint;
 

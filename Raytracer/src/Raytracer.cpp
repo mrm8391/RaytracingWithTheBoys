@@ -41,11 +41,16 @@ int main()
 	Sphere* smallSphere = new Sphere(smallSpherePoint, 0.75);
 	smallSphere->color = 0.5;
 
+	Point firstLightPoint(-1.2, 3.00, 5.11);
+	LightSource* firstLight = new LightSource(firstLightPoint, 100, 50, 25);
+
 	World w;
 	w.addObject(floor1);
 	w.addObject(floor2);
 	w.addObject(largeSphere);
 	w.addObject(smallSphere);
+	w.addLightSource(firstLight);
+
 
 	Point camOrig(-.8, .7, -6.14);
 	Point worldOrig(0, 0, 0);

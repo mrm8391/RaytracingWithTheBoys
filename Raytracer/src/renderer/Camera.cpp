@@ -30,6 +30,7 @@ double Camera::FOCAL_POINT = 10.0;
 Camera::Camera(Point pos, Vector look, Vector base)
 {
 	objects = vector<Object*>();
+	lights = vector<LightSource*>();
 	screen = vector<vector<double>>();
 
 	eyepoint = Point(pos);
@@ -82,6 +83,13 @@ std::vector<std::vector<double>> Camera::render(World world)
 		this->objects.push_back(cameraObj);
 	}
 
+	for (LightSource* light : world.lights) {
+		LightSource* cameraLight = light->copy();
+		cameraLight->transform(viewTransform);
+
+		this->lights.push_back(cameraLight);
+	}
+
 	//Start spawning rays.
 	//In accordance with the camera coordinate system,
 	//+x goes to the right of screen, +y to the top of screen,
@@ -117,9 +125,16 @@ std::vector<std::vector<double>> Camera::render(World world)
 
 			if (!closestInter.noIntersect) {
 				pixels[x][y] = closestInter.color;
-				// need to spawn ray from closestInter.intersection to the light source.
-				// if it reaches the light source without intersection, then closestInter.intersectedObject->shade() gives the color
-				// otherwise ?
+				// need to spawn ray from closestInter.intersection to each light source.
+				for (LightSource * light : lights) {
+					//std::cout << "LightSource in Camera: Radiance = " << light->radiance.vec[0] << ", " << light->radiance.vec[1] << ", " << light->radiance.vec[2] << ".\n ";
+					Vector lightSourceRayDir(double(light->pos.vec[0]), double(light->pos.vec[1]), double(light->pos.vec[2]));
+					IntersectData potentialBlocker = spawnRay(closestInter.intersection, lightSourceRayDir);
+					// if it reaches the light source without intersection, then closestInter.intersectedObject->shade() gives the color
+
+					// otherwise FOR NOW set to black
+				}
+				
 			}
 		}
 	}
