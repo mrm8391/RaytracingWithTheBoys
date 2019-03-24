@@ -11,7 +11,9 @@ Object::Object(double x, double y, double z, ShadingModel shad) {
 	this->pos = Point(x, y, z);
 	this->color = Vector(0.0,0.0,0.0);
 
-	this->shadingModel = shad;
+	PhongShading* p = new PhongShading();
+	this->shadingModel = p;
+	//this->shadingModel = shad;
 }
 
 IntersectData Object::intersect(Ray ray)
@@ -21,7 +23,7 @@ IntersectData Object::intersect(Ray ray)
 
 Vector Object::shade(LightSource light, Ray incoming, IntersectData inter)
 {
-	return this->shadingModel.shade(light, incoming, inter);
+	return this->shadingModel->shade(light, incoming, inter);
 }
 
 void Object::translate(double x, double y, double z)

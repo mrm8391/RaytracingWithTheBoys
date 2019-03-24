@@ -30,7 +30,7 @@ public:
 	int id;
 
 	// Illumination model for determining lighting/reflection on surface
-	ShadingModel shadingModel;
+	ShadingModel* shadingModel;
 
 	/*
 	Default constructor, placing object at (0,0,0)

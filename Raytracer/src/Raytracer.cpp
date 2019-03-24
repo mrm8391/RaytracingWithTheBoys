@@ -69,6 +69,7 @@ int main()
 	Imager img(pixels);
 
 	img.displayImage();
+	img.saveImage("coloredPhongTest");
 
 	//Deallocate object memory usage
 	w.clear();
