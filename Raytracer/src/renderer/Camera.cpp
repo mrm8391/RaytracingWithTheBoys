@@ -31,7 +31,7 @@ Camera::Camera(Point pos, Vector look, Vector base)
 {
 	objects = vector<Object*>();
 	lights = vector<LightSource*>();
-	screen = vector<vector<double>>();
+	screen = vector<vector<Vector>>();
 
 	eyepoint = Point(pos);
 	lookat = Vector(look);
@@ -52,17 +52,17 @@ Camera::Camera(Point pos, Vector look, Vector base)
 	u = Vector(up);
 }
 
-std::vector<std::vector<double>> Camera::render(World world)
+std::vector<std::vector<Vector>> Camera::render(World world)
 {
 
-	//Initialize virtual screen values. Default value/bg color is
-	//maximum intensity, white.
-	vector<vector<double>> pixels;
+	//Initialize virtual screen values. Default value/bg color is black
+	vector<vector<Vector>> pixels;
+	Vector backgroundColor = Vector(0.0, 0.0, 0.0);
 	for (int i = 0; i < Camera::NUM_PIXELS_HORIZONTAL; i++) {
-		pixels.push_back(vector<double>());
+		pixels.push_back(vector<Vector>());
 
 		for (int j = 0; j < Camera::NUM_PIXELS_VERTICAL; j++) {
-			pixels[i].push_back(1.0);
+			pixels[i].push_back(backgroundColor);
 		}
 	}
 
@@ -124,16 +124,52 @@ std::vector<std::vector<double>> Camera::render(World world)
 			IntersectData closestInter = spawnRay(pixelPos, rayDir);
 
 			if (!closestInter.noIntersect) {
-				pixels[x][y] = closestInter.color;
+				// We have spawned a ray from the camera and hit an object in the scene!
+				//pixels[x][y] = closestInter.color; //TODO update this with radiances
+
+				Vector color;
+
 				// need to spawn ray from closestInter.intersection to each light source.
 				for (LightSource * light : lights) {
-					//std::cout << "LightSource in Camera: Radiance = " << light->radiance.vec[0] << ", " << light->radiance.vec[1] << ", " << light->radiance.vec[2] << ".\n ";
 					Vector lightSourceRayDir(double(light->pos.vec[0]), double(light->pos.vec[1]), double(light->pos.vec[2]));
+					lightSourceRayDir.normalize();
 					IntersectData potentialBlocker = spawnRay(closestInter.intersection, lightSourceRayDir);
-					// if it reaches the light source without intersection, then closestInter.intersectedObject->shade() gives the color
 
-					// otherwise FOR NOW set to black
+					// if it reaches the light source without intersection, then closestInter.intersectedObject->shade() gives the color
+					if (!potentialBlocker.noIntersect) {
+						// to call shade(), we need:
+						// our own Vector containing redRad, greenRad, blueRad
+
+						// the point that radiance is coming from
+						// the Ray between the object point and the light source point, but remember it's normalized and a Ray so shade() can do math
+						// the IntersectData of where the camera ray hit the Object, as this contains the Object with its materials
+
+
+						// pixels[x][y] = closestInter.intersectedObject->shade(light, ).vec[0];
+						Ray ray(closestInter.intersection, lightSourceRayDir);
+
+						color = closestInter.intersectedObject->shade(*light, ray, closestInter);
+						
+
+						// change:
+						// placeholders for material values and colors
+						// if object is in intersect data you can just grab the material
+						// change: reflect change in parameters: new params for all shading models.shade() will be: 
+							// not LightSOurce anymore, but instead our own Vector containing redRad, greenRad, blueRad, and then a Position
+							// the ray param stays the same, and the ray being used is the one between the generic source of light and the object point in question
+						
+						// vector S is a vector to the light
+						// normal
+						// refactor doubles for color into vectors (just make color in vector work from front to back) 
+
+
+					}
+					else {
+						color = Vector(0.0,0.0,0.0); //placeholder for shadowed value
+					}
+
 				}
+				pixels[x][y] = color; // placeholder: red
 				
 			}
 		}

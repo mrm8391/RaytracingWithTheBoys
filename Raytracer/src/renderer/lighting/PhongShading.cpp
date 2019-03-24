@@ -1,6 +1,7 @@
 
 #include <renderer/lighting/PhongShading.h>
 #include <algorithm>
+#include <prims/Object.h>
 
 PhongShading::PhongShading()
 {
@@ -8,16 +9,17 @@ PhongShading::PhongShading()
 
 Vector PhongShading::shade(LightSource light, Ray incoming, IntersectData inter)
 {
-	Vector objColor = Vector();
-	Vector specColor = Vector();
+	//inter.intersectedObject->shade();
+	Vector objColor = inter.intersectedObject->color;
+	Vector specColor = Vector(1.0,1.0,1.0);
 
 	//placeholders, grab from material
-	double ka = 1, kd = 1, ks = 1, ke = 1;
+	double ka = 0.6, kd = 0.5, ks = 0.4, ke = 0.6;
 
 	Point I = inter.intersection;
 
 	//placeholder. Will be object.normal(inter.intersection)
-	Vector N = Vector();
+	Vector N = inter.normal;
 
 	// Vector from light to inter
 	Vector S = I.subtract(light.pos);

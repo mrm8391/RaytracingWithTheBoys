@@ -14,7 +14,7 @@ public:
 	Vector(double x, double y, double z);
 
 	//Copy constructor
-	Vector(Vector &other);
+	Vector(const Vector &other);
 
 	void normalize();
 

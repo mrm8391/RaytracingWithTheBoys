@@ -9,7 +9,7 @@ Object::Object() : Object(0,0,0)
 Object::Object(double x, double y, double z, ShadingModel shad) {
 	this->id = 0;
 	this->pos = Point(x, y, z);
-	this->color = 0.0;
+	this->color = Vector(0.0,0.0,0.0);
 
 	this->shadingModel = shad;
 }

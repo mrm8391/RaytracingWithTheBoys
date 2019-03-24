@@ -15,6 +15,7 @@
 #include <prims/Triangle.h>
 #include <prims/Sphere.h>
 #include <renderer/Imager.h>
+#include <renderer/lighting/ToneReproduction.h>
 
 using namespace std;
 using Eigen::MatrixXd;
@@ -30,16 +31,16 @@ int main()
 	Point f1(-2, 0, -6), f2(-2, 0, 6), f3(2, 0, 6), f4(2, 0, -6);
 	Triangle* floor1 = new Triangle(f1, f2, f4);
 	Triangle* floor2 = new Triangle(f4, f2, f3);
-	floor1->color = .75;
-	floor2->color = .75;
+	floor1->color = Vector(0.0,.75,0.0);
+	floor2->color = Vector(0.0, .75, 0.0);
 
 	Point largeSpherePoint(-1.0, 1.3, -1.9);
 	Sphere* largeSphere = new Sphere(largeSpherePoint, 1.0);
-	largeSphere->color = 0.25;
+	largeSphere->color = Vector(0.25,0.0,0.0);
 
 	Point smallSpherePoint(0.0, .7, -1.2);
 	Sphere* smallSphere = new Sphere(smallSpherePoint, 0.75);
-	smallSphere->color = 0.5;
+	smallSphere->color = Vector(0.0,0.0,0.5);
 
 	Point firstLightPoint(-1.2, 3.00, 5.11);
 	LightSource* firstLight = new LightSource(firstLightPoint, 100, 50, 25);
@@ -60,6 +61,10 @@ int main()
 	Camera cam(camOrig, lookat, base);
 
 	auto pixels = cam.render(w);
+
+	// pixels is a 2d vector of Vectors of unbounded R,G,B radiances at this point
+	
+	pixels = ToneReproduction::LinearScale(pixels);
 
 	Imager img(pixels);
 

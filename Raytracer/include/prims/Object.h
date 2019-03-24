@@ -22,8 +22,9 @@ public:
 
 	Point pos;
 
-	// For now, a 0-1 value
-	double color;
+	// Red, Green, and Blue Radiance Reflection Levels
+	Vector color;
+
 
 	// Object's id, for use by the world/camera
 	int id;
