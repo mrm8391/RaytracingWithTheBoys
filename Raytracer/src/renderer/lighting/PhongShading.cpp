@@ -33,10 +33,7 @@ Vector PhongShading::shade(LightSource light, Ray incoming, IntersectData inter)
 	// Vector from intersection to viewpoint/ray origin
 	Vector V = incoming.origin.subtract(I);
 
-	//std::cout << "R: [" << R.vec[0] << ", " << R.vec[1] << ", " << R.vec[2] << "]   ";
-	//std::cout << "V: [" << V.vec[0] << ", " << V.vec[1] << ", " << V.vec[2] << "]\n";
 	// Just to be safe
-	S.normalize();
 	R.normalize();
 	V.normalize();
 
@@ -54,10 +51,9 @@ Vector PhongShading::shade(LightSource light, Ray incoming, IntersectData inter)
 
 		// specularDot = R dot V
 		double specular = ks * light.radiance.vec[i] * specColor.vec[i] * pow(specularDot, ke);
-		//std::cout << "light.radiance.vec[i]: " << light.radiance.vec[i] << ", specularDot: " << specularDot << "\n";
 
 		double res = ambient + diffuse + specular;
-		//std::cout << "ambient: " << ambient << ", diffuse: " << diffuse << ", specular: " << specular << "\n";
+
 		outputRadiance.vec[i] = res;
 	}
 

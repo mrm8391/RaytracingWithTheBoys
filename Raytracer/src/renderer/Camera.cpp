@@ -125,7 +125,6 @@ std::vector<std::vector<Vector>> Camera::render(World world)
 
 			if (!closestInter.noIntersect) {
 				// We have spawned a ray from the camera and hit an object in the scene!
-				//pixels[x][y] = closestInter.color; //TODO update this with radiances
 
 				Vector color;
 
