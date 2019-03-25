@@ -5,7 +5,7 @@ Object::Object() : Object(0,0,0)
 	
 }
 
-//Note: ShadingModel parameter defaults to PhongShading in Object.h
+//Note: ShadingModel parameter defaults to PhongShading here
 Object::Object(double x, double y, double z, ShadingModel shad) {
 	this->id = 0;
 	this->pos = Point(x, y, z);
@@ -13,7 +13,6 @@ Object::Object(double x, double y, double z, ShadingModel shad) {
 
 	PhongShading* p = new PhongShading();
 	this->shadingModel = p;
-	//this->shadingModel = shad;
 }
 
 IntersectData Object::intersect(Ray ray)

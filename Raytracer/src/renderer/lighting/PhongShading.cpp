@@ -2,6 +2,7 @@
 #include <renderer/lighting/PhongShading.h>
 #include <algorithm>
 #include <prims/Object.h>
+#include <iostream>
 
 PhongShading::PhongShading()
 {
@@ -9,20 +10,22 @@ PhongShading::PhongShading()
 
 Vector PhongShading::shade(LightSource light, Ray incoming, IntersectData inter)
 {
-	//inter.intersectedObject->shade();
 	Vector objColor = inter.intersectedObject->color;
 	Vector specColor = Vector(1.0,1.0,1.0);
 
 	//placeholders, grab from material
-	double ka = 0.6, kd = 0.5, ks = 0.4, ke = 0.6;
+	double ka = 0.8, kd = 0.5, ks = 0.4, ke = 2.0;
 
 	Point I = inter.intersection;
 
-	//placeholder. Will be object.normal(inter.intersection)
+	// Normal off of surface
 	Vector N = inter.normal;
 
 	// Vector from light to inter
 	Vector S = I.subtract(light.pos);
+
+	N.normalize();
+	S.normalize();
 
 	// Perfectly reflected light direction
 	Vector R = S.reflect(N);
@@ -30,6 +33,8 @@ Vector PhongShading::shade(LightSource light, Ray incoming, IntersectData inter)
 	// Vector from intersection to viewpoint/ray origin
 	Vector V = incoming.origin.subtract(I);
 
+	//std::cout << "R: [" << R.vec[0] << ", " << R.vec[1] << ", " << R.vec[2] << "]   ";
+	//std::cout << "V: [" << V.vec[0] << ", " << V.vec[1] << ", " << V.vec[2] << "]\n";
 	// Just to be safe
 	S.normalize();
 	R.normalize();
@@ -49,9 +54,10 @@ Vector PhongShading::shade(LightSource light, Ray incoming, IntersectData inter)
 
 		// specularDot = R dot V
 		double specular = ks * light.radiance.vec[i] * specColor.vec[i] * pow(specularDot, ke);
+		//std::cout << "light.radiance.vec[i]: " << light.radiance.vec[i] << ", specularDot: " << specularDot << "\n";
 
 		double res = ambient + diffuse + specular;
-
+		//std::cout << "ambient: " << ambient << ", diffuse: " << diffuse << ", specular: " << specular << "\n";
 		outputRadiance.vec[i] = res;
 	}
 
