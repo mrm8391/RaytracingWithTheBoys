@@ -41,7 +41,9 @@ int main()
 	Point smallSpherePoint(0.0, .7, -1.2);
 	Sphere* smallSphere = new Sphere(smallSpherePoint, 0.75);
 	smallSphere->color = Vector(0.0,0.0,1.0);
-
+	
+	//debug; light above first sph
+	//Point firstLightPoint(-1.0, 5.3, -1.9);
 	Point firstLightPoint(-1.2, 3.00, 5.11);
 	LightSource* firstLight = new LightSource(firstLightPoint, 10, 10, 10);
 
@@ -53,7 +55,7 @@ int main()
 	w.addLightSource(firstLight);
 
 
-	Point camOrig(-.8, .7, -6.14);
+	Point camOrig(-.8, .7, -10.14);
 	Point worldOrig(0, 0, 0);
 	Vector lookat(0, 0, 1);
 	Vector base(0, 1, 0);
