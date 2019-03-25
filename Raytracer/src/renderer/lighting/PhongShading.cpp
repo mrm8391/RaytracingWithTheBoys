@@ -21,8 +21,8 @@ Vector PhongShading::shade(LightSource light, Ray incoming, IntersectData inter)
 	// Normal off of surface
 	Vector N = inter.normal;
 
-	// Vector from light to inter
-	Vector S = I.subtract(light.pos);
+	// Vector from inter to light
+	Vector S = light.pos.subtract(I);
 
 	N.normalize();
 	S.normalize();
