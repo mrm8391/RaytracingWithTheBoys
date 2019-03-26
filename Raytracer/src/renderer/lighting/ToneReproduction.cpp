@@ -31,9 +31,9 @@ vector<vector<Vector>> ToneReproduction::LinearScale(vector<vector<Vector>> radi
 		for (int j = 0; j < radiances[i].size(); j++) {
 			Vector cur = radiances[i][j];
 
-			double r = (cur.vec[0]/maxAll) * 255,
-				g = (cur.vec[1]/maxAll) * 255,
-				b = (cur.vec[2]/maxAll) * 255;
+			double r = (cur.vec[0]/maxR) * 255,
+				g = (cur.vec[1]/maxG) * 255,
+				b = (cur.vec[2]/maxB) * 255;
 
 			pixels[i].push_back(Vector(r,g,b));
 		}

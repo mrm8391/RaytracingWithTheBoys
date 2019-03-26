@@ -43,8 +43,7 @@ int main()
 	smallSphere->color = Vector(0.0,0.0,1.0);
 	
 	//debug; light above first sph
-	//Point firstLightPoint(-1.0, 5.3, -1.9);
-	Point firstLightPoint(-1.2, 3.00, 5.11);
+	Point firstLightPoint(-1.0, 5.3, -1.9);
 	LightSource* firstLight = new LightSource(firstLightPoint, 10, 10, 10);
 
 	World w;
@@ -55,7 +54,7 @@ int main()
 	w.addLightSource(firstLight);
 
 
-	Point camOrig(-.8, .7, -10.14);
+	Point camOrig(-.8, .7, -8.14);
 	Point worldOrig(0, 0, 0);
 	Vector lookat(0, 0, 1);
 	Vector base(0, 1, 0);
@@ -71,7 +70,7 @@ int main()
 	Imager img(pixels);
 
 	img.displayImage();
-	img.saveImage("coloredPhongTest");
+	//img.saveImage("coloredPhongTest");
 
 	//Deallocate object memory usage
 	w.clear();

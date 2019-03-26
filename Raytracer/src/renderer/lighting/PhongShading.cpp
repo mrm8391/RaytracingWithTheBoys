@@ -14,7 +14,7 @@ Vector PhongShading::shade(LightSource light, Ray incoming, IntersectData inter)
 	Vector specColor = Vector(1.0,1.0,1.0);
 
 	//placeholders, grab from material
-	double ka = 0.8, kd = 0.5, ks = 0.4, ke = 2.0;
+	double ka = 0.8, kd = 0.5, ks = 0.3, ke = 3.0;
 
 	Point I = inter.intersection;
 
@@ -50,7 +50,7 @@ Vector PhongShading::shade(LightSource light, Ray incoming, IntersectData inter)
 		double diffuse = kd * light.radiance.vec[i] * objColor.vec[i] * diffuseDot;
 
 		// specularDot = R dot V
-		double specular = ks * light.radiance.vec[i] * specColor.vec[i] * pow(specularDot, ke);
+		double specular = ks * light.radiance.vec[i] * specColor.vec[i] * pow(abs(specularDot), ke);
 
 		double res = ambient + diffuse + specular;
 

@@ -16,11 +16,11 @@ using namespace std;
 
 //Static runtime constant initialization
 
-double Camera::SCREEN_WIDTH = 10.0;
-double Camera::SCREEN_HEIGHT = 10.0;
+double Camera::SCREEN_WIDTH = 3.0;
+double Camera::SCREEN_HEIGHT = 3.0;
 
-unsigned int Camera::NUM_PIXELS_HORIZONTAL = 200;
-unsigned int Camera::NUM_PIXELS_VERTICAL = 200;
+unsigned int Camera::NUM_PIXELS_HORIZONTAL = 100;
+unsigned int Camera::NUM_PIXELS_VERTICAL = 100;
 
 double Camera::PIXEL_WIDTH = Camera::SCREEN_WIDTH / Camera::NUM_PIXELS_HORIZONTAL;
 double Camera::PIXEL_HEIGHT = Camera::SCREEN_HEIGHT / Camera::NUM_PIXELS_VERTICAL;
@@ -57,7 +57,7 @@ std::vector<std::vector<Vector>> Camera::render(World world)
 
 	//Initialize virtual screen values. Default value/bg color is black
 	vector<vector<Vector>> pixels;
-	Vector backgroundColor = Vector(0.1, 0.1, 0.1);
+	Vector backgroundColor = Vector(0.8, 0.8, 2.3);
 	for (int i = 0; i < Camera::NUM_PIXELS_HORIZONTAL; i++) {
 		pixels.push_back(vector<Vector>());
 
@@ -151,7 +151,7 @@ std::vector<std::vector<Vector>> Camera::render(World world)
 					} 
 					//if collision with an obj, shadow ray
 					else {
-						color = Vector(0.0,0.0,0.0); //placeholder for shadowed value
+						color = closestInter.intersectedObject->color;
 					}
 
 				}
