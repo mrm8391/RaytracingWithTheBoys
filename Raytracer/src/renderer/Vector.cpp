@@ -17,7 +17,7 @@ Vector::Vector(double x, double y, double z) {
 	vec[2] = z;
 }
 
-Vector::Vector(Vector &other) : Vector(other.vec[0], other.vec[1], other.vec[2]) {
+Vector::Vector(const Vector &other) : Vector(other.vec[0], other.vec[1], other.vec[2]) {
 
 }
 

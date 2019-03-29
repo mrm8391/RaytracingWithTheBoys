@@ -3,7 +3,7 @@
 
 using namespace std;
 
-static vector<vector<Vector>> ToneReproduction::LinearScale(vector<vector<Vector>> radiances){
+vector<vector<Vector>> ToneReproduction::LinearScale(vector<vector<Vector>> radiances){
 
 	double maxR=0,maxG=0,maxB=0;
 

@@ -1,6 +1,8 @@
 
 #include <renderer/lighting/PhongShading.h>
 #include <algorithm>
+#include <prims/Object.h>
+#include <iostream>
 
 PhongShading::PhongShading()
 {
@@ -8,19 +10,25 @@ PhongShading::PhongShading()
 
 Vector PhongShading::shade(LightSource light, Ray incoming, IntersectData inter)
 {
-	Vector objColor = Vector();
-	Vector specColor = Vector();
+	// Material properties
+	Vector objColor = inter.intersectedObject->material->colorAtUV(0,0); // at (0,0) is a placeholder, this call should be moved out of this method(?)
+	Vector specColor = inter.intersectedObject->material->specColor;
 
-	//placeholders, grab from material
-	double ka = 1, kd = 1, ks = 1, ke = 1;
+	double ka = inter.intersectedObject->material->ka;
+	double kd = inter.intersectedObject->material->kd;
+	double ks = inter.intersectedObject->material->ks;
+	double ke = inter.intersectedObject->material->ke;
 
 	Point I = inter.intersection;
 
-	//placeholder. Will be object.normal(inter.intersection)
-	Vector N = Vector();
+	// Normal off of surface
+	Vector N = inter.normal;
 
-	// Vector from light to inter
-	Vector S = I.subtract(light.pos);
+	// Vector from inter to light
+	Vector S = light.pos.subtract(I);
+
+	N.normalize();
+	S.normalize();
 
 	// Perfectly reflected light direction
 	Vector R = S.reflect(N);
@@ -29,7 +37,6 @@ Vector PhongShading::shade(LightSource light, Ray incoming, IntersectData inter)
 	Vector V = incoming.origin.subtract(I);
 
 	// Just to be safe
-	S.normalize();
 	R.normalize();
 	V.normalize();
 
@@ -46,7 +53,7 @@ Vector PhongShading::shade(LightSource light, Ray incoming, IntersectData inter)
 		double diffuse = kd * light.radiance.vec[i] * objColor.vec[i] * diffuseDot;
 
 		// specularDot = R dot V
-		double specular = ks * light.radiance.vec[i] * specColor.vec[i] * pow(specularDot, ke);
+		double specular = ks * light.radiance.vec[i] * specColor.vec[i] * pow(abs(specularDot), ke);
 
 		double res = ambient + diffuse + specular;
 

@@ -1,7 +1,8 @@
 #include <renderer/Imager.h>
 #include <CImg/CImg.h>
+#include <renderer/Vector.h>
 
-Imager::Imager(vector<vector<double>> pixels)
+Imager::Imager(vector<vector<Vector>> pixels)
 {
 	const int width = pixels[0].size();
 	const int height = pixels.size();
@@ -16,11 +17,8 @@ Imager::Imager(vector<vector<double>> pixels)
 			//invert y to work with cimg
 			int realY = height - y - 1;
 
-			// Calculate grayscale value of pixel
-			int value = int(255.0 * pixels[x][y]);
-
 			// Set each of the three color channels to this value (results in grayscale)
-			for(int i = 0; i < 3; i++) imgA(x, realY, i) = value;
+			for(int i = 0; i < 3; i++) imgA(x, realY, i) = pixels[x][y].vec[i];
 		}
 	}
 

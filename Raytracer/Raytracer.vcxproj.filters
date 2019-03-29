@@ -882,6 +882,15 @@
     <ClInclude Include="include\renderer\lighting\PhongShading.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\renderer\lighting\ToneReproduction.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\renderer\materials\Material.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\renderer\materials\SolidMaterial.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\prims\Plane.cpp">
@@ -927,6 +936,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\renderer\lighting\PhongShading.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\lighting\ToneReproduction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\materials\Material.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\materials\SolidMaterial.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

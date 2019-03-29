@@ -16,21 +16,22 @@ using namespace std;
 
 //Static runtime constant initialization
 
-double Camera::SCREEN_WIDTH = 10.0;
-double Camera::SCREEN_HEIGHT = 10.0;
+double Camera::SCREEN_WIDTH = 3.0;
+double Camera::SCREEN_HEIGHT = 3.0;
 
-unsigned int Camera::NUM_PIXELS_HORIZONTAL = 100;
-unsigned int Camera::NUM_PIXELS_VERTICAL = 100;
+unsigned int Camera::NUM_PIXELS_HORIZONTAL = 400;
+unsigned int Camera::NUM_PIXELS_VERTICAL = 400;
 
 double Camera::PIXEL_WIDTH = Camera::SCREEN_WIDTH / Camera::NUM_PIXELS_HORIZONTAL;
 double Camera::PIXEL_HEIGHT = Camera::SCREEN_HEIGHT / Camera::NUM_PIXELS_VERTICAL;
 
-double Camera::FOCAL_POINT = 10.0;
+double Camera::FOCAL_POINT = 5.0;
 
 Camera::Camera(Point pos, Vector look, Vector base)
 {
 	objects = vector<Object*>();
-	screen = vector<vector<double>>();
+	lights = vector<LightSource*>();
+	screen = vector<vector<Vector>>();
 
 	eyepoint = Point(pos);
 	lookat = Vector(look);
@@ -51,17 +52,17 @@ Camera::Camera(Point pos, Vector look, Vector base)
 	u = Vector(up);
 }
 
-std::vector<std::vector<double>> Camera::render(World world)
+std::vector<std::vector<Vector>> Camera::render(World world)
 {
 
-	//Initialize virtual screen values. Default value/bg color is
-	//maximum intensity, white.
-	vector<vector<double>> pixels;
+	//Initialize virtual screen values. Default value/bg color is black
+	vector<vector<Vector>> pixels;
+	Vector backgroundColor = Vector(0.8, 0.8, 2.3);
 	for (int i = 0; i < Camera::NUM_PIXELS_HORIZONTAL; i++) {
-		pixels.push_back(vector<double>());
+		pixels.push_back(vector<Vector>());
 
 		for (int j = 0; j < Camera::NUM_PIXELS_VERTICAL; j++) {
-			pixels[i].push_back(1.0);
+			pixels[i].push_back(backgroundColor);
 		}
 	}
 
@@ -80,6 +81,13 @@ std::vector<std::vector<double>> Camera::render(World world)
 		cameraObj->transform(viewTransform);
 
 		this->objects.push_back(cameraObj);
+	}
+
+	for (LightSource* light : world.lights) {
+		LightSource* cameraLight = light->copy();
+		cameraLight->transform(viewTransform);
+
+		this->lights.push_back(cameraLight);
 	}
 
 	//Start spawning rays.
@@ -116,10 +124,39 @@ std::vector<std::vector<double>> Camera::render(World world)
 			IntersectData closestInter = spawnRay(pixelPos, rayDir);
 
 			if (!closestInter.noIntersect) {
-				pixels[x][y] = closestInter.color;
-				// need to spawn ray from closestInter.intersection to the light source.
-				// if it reaches the light source without intersection, then closestInter.intersectedObject->shade() gives the color
-				// otherwise ?
+				// We have spawned a ray from the camera and hit an object in the scene!
+
+				Vector color;
+
+				// need to spawn ray from closestInter.intersection to each light source.
+				for (LightSource * light : lights) {
+					Vector lightSourceRayDir = light->pos.subtract(closestInter.intersection);
+					//(double(light->pos.vec[0]), double(light->pos.vec[1]), double(light->pos.vec[2]));
+					lightSourceRayDir.normalize();
+					IntersectData potentialBlocker = spawnRay(closestInter.intersection, lightSourceRayDir);
+
+					rayDir.normalize();
+					Ray rayFromCamera(pixelPos, rayDir);
+
+					// if it reaches the light source without intersection, then closestInter.intersectedObject->shade() gives the color
+					if (potentialBlocker.noIntersect) {
+
+						Ray ray(closestInter.intersection, lightSourceRayDir);
+
+						color = closestInter.intersectedObject->shade(*light, rayFromCamera, closestInter);
+						
+						// change: reflect change in parameters: new params for all shading models.shade() will be: 
+							// not LightSOurce anymore, but instead our own Vector containing redRad, greenRad, blueRad, and then a Position
+
+					} 
+					//if collision with an obj, shadow ray
+					else {
+						color = closestInter.intersectedObject->material->colorAtUV(0,0);
+					}
+
+				}
+				pixels[x][y] = color;
+				
 			}
 		}
 	}
@@ -152,8 +189,13 @@ IntersectData Camera::spawnRay(Point position, Vector rayDir) {
 	for (Object* obj : this->objects) {
 
 		IntersectData inter = obj->intersect(ray);
-		if (!inter.noIntersect) {
-			if (closestInter.noIntersect || inter.distance < closestInter.distance) {
+		if (!inter.noIntersect) { // if there is an intersection
+			
+			//prevent backwards inters, and intersection with itself if spawning ray from obj
+			if (inter.distance < 0.001)
+				continue;
+
+			if (closestInter.noIntersect || inter.distance < closestInter.distance) { // if there was no intersection before, or this intersection is closer
 				closestInter = inter;
 			}
 		}
@@ -167,6 +209,7 @@ void Camera::clear()
 {
 	for (int i = objects.size() - 1; i >= 0; i--) {
 		Object* cur = objects[i];
+		delete cur->shadingModel;
 		delete cur;
 		objects.pop_back();
 	}

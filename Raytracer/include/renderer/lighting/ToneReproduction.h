@@ -16,7 +16,7 @@ Currently, methods operate on 2D vectors of radiance values
 #include "renderer/Vector.h"
 
 class ToneReproduction{
-
+public: 
 	/*
 	Very basic conversion to RGB. For each of R, G, B radiances:
 	[0-max] -> [0–1.0] -> [0-255]
@@ -27,6 +27,6 @@ class ToneReproduction{
 	*/
 	static std::vector<std::vector<Vector>> LinearScale(std::vector<std::vector<Vector>> radiances);
 
-}
+};
 
 #endif

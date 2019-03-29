@@ -423,6 +423,7 @@
     <ClInclude Include="extern\include\eigen\SVD\SVDBase.h" />
     <ClInclude Include="extern\include\eigen\SVD\UpperBidiagonalization.h" />
     <ClInclude Include="extern\include\eigen\UmfPackSupport\UmfPackSupport.h" />
+    <ClInclude Include="include\renderer\materials\Material.h" />
     <ClInclude Include="include\prims\Object.h" />
     <ClInclude Include="include\prims\Plane.h" />
     <ClInclude Include="include\prims\Sphere.h" />
@@ -432,6 +433,8 @@
     <ClInclude Include="include\renderer\IntersectData.h" />
     <ClInclude Include="include\renderer\lighting\LightSource.h" />
     <ClInclude Include="include\renderer\lighting\PhongShading.h" />
+    <ClInclude Include="include\renderer\lighting\ToneReproduction.h" />
+    <ClInclude Include="include\renderer\materials\SolidMaterial.h" />
     <ClInclude Include="include\renderer\Point.h" />
     <ClInclude Include="include\renderer\Ray.h" />
     <ClInclude Include="include\renderer\lighting\ShadingModel.h" />
@@ -440,11 +443,14 @@
     <ClInclude Include="include\utils\Transforms.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\renderer\materials\Material.cpp" />
     <ClCompile Include="src\prims\Triangle.cpp" />
     <ClCompile Include="src\renderer\Camera.cpp" />
     <ClCompile Include="src\renderer\Imager.cpp" />
     <ClCompile Include="src\renderer\lighting\LightSource.cpp" />
     <ClCompile Include="src\renderer\lighting\PhongShading.cpp" />
+    <ClCompile Include="src\renderer\lighting\ToneReproduction.cpp" />
+    <ClCompile Include="src\renderer\materials\SolidMaterial.cpp" />
     <ClCompile Include="src\renderer\Point.cpp" />
     <ClCompile Include="src\renderer\Ray.cpp" />
     <ClCompile Include="src\renderer\lighting\ShadingModel.cpp" />

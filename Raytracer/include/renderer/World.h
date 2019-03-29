@@ -14,8 +14,10 @@ class World {
 	
 public:
 	std::vector<Object*> objects;
+	std::vector<LightSource*> lights;
 	Point origin;
-	int nextId;
+	int nextId; // ID for objects
+	int nextLightId; // ID for LightSources
 	
 	/*
 	Default constructor, creating a world with origin (0,0,0)
@@ -55,6 +57,16 @@ public:
 	@return True if removal successful, false otherwise.
 	*/
 	bool removeObject(Object* obj);
+
+	/*
+	Add a light source to the world and assign it an ID.
+	Light source assumed to be initialized and ready for display.
+
+	@param lyte Lightsource to add
+
+	@return Id of inserted light
+	*/
+	int addLightSource(LightSource* lyte);
 
 	/*
 	Clear all objects in world and deallocate from the heap.

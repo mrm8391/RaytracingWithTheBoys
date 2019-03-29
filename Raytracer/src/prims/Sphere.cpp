@@ -68,7 +68,7 @@ IntersectData Sphere::intersect(Ray ray)
 
 	normal.normalize();
 
-	return IntersectData(omega, color, normal, this, worldCoordsIntersection);
+	return IntersectData(omega, normal, this, worldCoordsIntersection);
 }
 
 void Sphere::translate(double x, double y, double z)
@@ -91,7 +91,7 @@ Object * Sphere::copy()
 
 	s->id = this->id;
 	s->pos = Point(this->pos);
-	s->color = this->color;
+	s->material = this->material;
 	s->radius = this->radius;
 
 	return s;

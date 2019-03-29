@@ -27,6 +27,7 @@ Example call:
 #include <iostream>
 #include <CImg/CImg.h>
 #include <vector>
+#include <renderer\Vector.h>
 
 using namespace std;
 using namespace cimg_library;
@@ -38,7 +39,7 @@ public:
 	Constructs internal representation of image. 
 	Expects 0-1 normalized values in pixels. 
 	*/
-	Imager(vector<vector<double>> pixels);
+	Imager(vector<vector<Vector>> pixels);
 
 	/*
 	Displays image to screen without saving the image. 

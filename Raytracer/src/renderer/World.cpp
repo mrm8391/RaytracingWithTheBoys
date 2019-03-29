@@ -10,7 +10,9 @@ World::World(double x, double y, double z)
 {
 	this->origin = Point(x, y, z);
 	this->objects = vector<Object*>();
-	this->nextId = 1;
+	this->lights = vector<LightSource*>();
+	this->nextId = 1; // ID for Objects
+	this->nextLightId = 1; // ID for LightSources
 }
 
 int World::addObject(Object* obj)
@@ -43,11 +45,27 @@ bool World::removeObject(Object* obj)
 	return removeObject(obj->id);
 }
 
+int World::addLightSource(LightSource* lyte)
+{
+	lyte->id = this->nextLightId;
+	this->nextLightId++;
+
+	this->lights.push_back(lyte);
+
+	return lyte->id;
+}
+
 void World::clear()
 {
 	for (int i = objects.size()-1; i >= 0; i--) {
 		Object* cur = objects[i];
 		delete cur;
 		objects.pop_back();
+	}
+
+	for (int i = lights.size() - 1; i >= 0; i--) {
+		LightSource* cur = lights[i];
+		delete cur;
+		lights.pop_back();
 	}
 }

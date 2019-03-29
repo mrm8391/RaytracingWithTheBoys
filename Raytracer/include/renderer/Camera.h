@@ -38,6 +38,9 @@ public:
 	//Copy of world objects transformed to camera space
 	std::vector<Object*> objects;
 
+	//Copy of world lights transformed to camera space
+	std::vector<LightSource*> lights;
+
 	//Camera position, in world coordinates
 	Point eyepoint;
 
@@ -53,7 +56,7 @@ public:
 
 	//Virtual screen in front of camera.
 	//Placeholder; will contain colors, and later irradiance
-	std::vector<std::vector<double>> screen;
+	std::vector<std::vector<Vector>> screen;
 
 	//Reference to most recent world rendered by camera.
 	//Uninitialized until first render() call
@@ -83,7 +86,7 @@ public:
 
 	@return 2D stl vector of pixel intensities
 	*/
-	std::vector<std::vector<double>> render(World world);
+	std::vector<std::vector<Vector>> render(World world);
 
 	/*
 	This method tells you what object this ray first intersects with.
