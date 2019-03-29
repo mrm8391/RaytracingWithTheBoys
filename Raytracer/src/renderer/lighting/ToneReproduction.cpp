@@ -19,8 +19,6 @@ vector<vector<Vector>> ToneReproduction::LinearScale(vector<vector<Vector>> radi
 			if(cur.vec[2]>maxB) maxB=cur.vec[2];
 		}
 	}
-	double maxAll = max({ maxR, maxG, maxB });
-	
 
 	vector<vector<Vector>> pixels;
 

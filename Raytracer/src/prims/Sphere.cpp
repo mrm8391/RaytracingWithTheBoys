@@ -91,7 +91,7 @@ Object * Sphere::copy()
 
 	s->id = this->id;
 	s->pos = Point(this->pos);
-	s->color = this->color;
+	s->material = this->material;
 	s->radius = this->radius;
 
 	return s;

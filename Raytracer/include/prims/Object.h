@@ -15,6 +15,7 @@ These will be mathematically defined.
 #include <renderer/lighting/LightSource.h>
 #include <renderer/lighting/ShadingModel.h>
 #include <renderer/lighting/PhongShading.h>
+#include <renderer/materials/Material.h>
 
 class Object {
 
@@ -23,7 +24,10 @@ public:
 	Point pos;
 
 	// Red, Green, and Blue Radiance Reflection Levels
-	Vector color;
+	// Vector color;
+
+	// Material containing all necessary values for shading
+	Material* material;
 
 
 	// Object's id, for use by the world/camera

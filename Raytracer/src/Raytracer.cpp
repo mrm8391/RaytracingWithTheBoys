@@ -14,6 +14,7 @@
 #include <utils/Transforms.h>
 #include <prims/Triangle.h>
 #include <prims/Sphere.h>
+#include <renderer/materials/SolidMaterial.h>
 #include <renderer/Imager.h>
 #include <renderer/lighting/ToneReproduction.h>
 
@@ -28,19 +29,23 @@ using Eigen::Vector3d;
 
 int main()
 {
+
+	SolidMaterial * floorMaterial = new SolidMaterial(Vector(1.0, 1.0, 0.0), 0.4, 0.5, 0.3, 1.0, Vector(1.0, 1.0, 1.0));
 	Point f1(-2, 0, -6), f2(-2, 0, 6), f3(2, 0, 6), f4(2, 0, -6);
 	Triangle* floor1 = new Triangle(f1, f2, f4);
 	Triangle* floor2 = new Triangle(f4, f2, f3);
-	floor1->color = Vector(0.0,1.0,0.0);
-	floor2->color = Vector(0.0,1.0, 0.0);
+	floor1->material = floorMaterial;
+	floor2->material = floorMaterial;
 
+	SolidMaterial * largeSphereMaterial = new SolidMaterial(Vector(1.0, 0.2, 0.0), 0.8, 0.5, 0.3, 30.0, Vector(1.0, 1.0, 1.0));
 	Point largeSpherePoint(-1.0, 1.3, -1.9);
 	Sphere* largeSphere = new Sphere(largeSpherePoint, 1.0);
-	largeSphere->color = Vector(1.0,0.2,0.0);
+	largeSphere->material = largeSphereMaterial;
 
+	SolidMaterial * smallSphereMaterial = new SolidMaterial(Vector(0.0, 0.0, 1.0), 0.8, 0.5, 0.3, 30.0, Vector(1.0, 1.0, 1.0));
 	Point smallSpherePoint(0.0, .7, -1.2);
 	Sphere* smallSphere = new Sphere(smallSpherePoint, 0.75);
-	smallSphere->color = Vector(0.0,0.0,1.0);
+	smallSphere->material = smallSphereMaterial;
 	
 	//debug; light above first sph
 	Point firstLightPoint(-1.0, 5.3, -1.9);
@@ -70,7 +75,7 @@ int main()
 	Imager img(pixels);
 
 	img.displayImage();
-	//img.saveImage("coloredPhongTest");
+	img.saveImage("checkpoint3");
 
 	//Deallocate object memory usage
 	w.clear();
