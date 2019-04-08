@@ -423,6 +423,7 @@
     <ClInclude Include="extern\include\eigen\SVD\SVDBase.h" />
     <ClInclude Include="extern\include\eigen\SVD\UpperBidiagonalization.h" />
     <ClInclude Include="extern\include\eigen\UmfPackSupport\UmfPackSupport.h" />
+    <ClInclude Include="include\renderer\materials\CheckerMaterial.h" />
     <ClInclude Include="include\renderer\materials\Material.h" />
     <ClInclude Include="include\prims\Object.h" />
     <ClInclude Include="include\prims\Plane.h" />
@@ -443,6 +444,7 @@
     <ClInclude Include="include\utils\Transforms.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\renderer\materials\CheckerMaterial.cpp" />
     <ClCompile Include="src\renderer\materials\Material.cpp" />
     <ClCompile Include="src\prims\Triangle.cpp" />
     <ClCompile Include="src\renderer\Camera.cpp" />

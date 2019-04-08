@@ -28,6 +28,8 @@ public:
 	// Color of specular highlight
 	Vector specColor;
 
+	void setPhong(double a, double d, double s, double e);
+
 	// Returns color
 	virtual Vector colorAtUV(double u, double v);
 

@@ -17,6 +17,7 @@
 #include <renderer/materials/SolidMaterial.h>
 #include <renderer/Imager.h>
 #include <renderer/lighting/ToneReproduction.h>
+#include <renderer/materials/CheckerMaterial.h>
 
 using namespace std;
 using Eigen::MatrixXd;

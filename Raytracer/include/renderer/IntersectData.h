@@ -24,10 +24,12 @@ typedef struct IntersectData_{
 	//Point at which the intersection occurs (optional)
 	Point intersection;
 
+	//UV mapping on object of this intersection for texturing. 
+	//Should be bounded [0,1] and should be computed when intersection is computed
+	float u, v;
+
 	//If true, no intersection occurs
 	bool noIntersect;
-
-	// A pointer to the object which was found to be intersected
 
 	/*
 	Default constructor to indicate no intersection
@@ -36,7 +38,7 @@ typedef struct IntersectData_{
 	{
 	}
 
-	IntersectData_(double d, Vector n, Object * obj, Point i) : distance(d), normal(n), intersectedObject(obj), intersection(i), noIntersect(false) 
+	IntersectData_(double d, Vector n, Object * obj, Point i) : distance(d), normal(n), intersectedObject(obj), intersection(i), noIntersect(false), u(0), v(0)
 	{
 	}
 
