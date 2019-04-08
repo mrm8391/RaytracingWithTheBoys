@@ -81,6 +81,10 @@ int main()
 	w.clear();
 	cam.clear();
 
+	delete floorMaterial;
+	delete smallSphereMaterial;
+	delete largeSphereMaterial;
+
     return 0;
 }
 

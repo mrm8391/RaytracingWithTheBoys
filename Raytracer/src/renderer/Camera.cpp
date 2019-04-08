@@ -213,4 +213,10 @@ void Camera::clear()
 		delete cur;
 		objects.pop_back();
 	}
+
+	for (int i = lights.size() - 1; i >= 0; i--) {
+		LightSource* cur = lights[i];
+		delete cur;
+		lights.pop_back();
+	}
 }
