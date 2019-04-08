@@ -151,7 +151,8 @@ std::vector<std::vector<Vector>> Camera::render(World world)
 					} 
 					//if collision with an obj, shadow ray
 					else {
-						color = closestInter.intersectedObject->material->colorAtUV(0,0);
+						//color = closestInter.intersectedObject->material->colorAtUV(0,0);
+						color = Vector(0, 0, 0);
 					}
 
 				}
