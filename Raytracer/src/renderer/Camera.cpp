@@ -211,6 +211,13 @@ void Camera::clear()
 	for (int i = objects.size() - 1; i >= 0; i--) {
 		Object* cur = objects[i];
 		delete cur->shadingModel;
+
+		//placeholder. should copy/free material in here...
+		if (cur->material != 0) {
+			//delete cur->material;
+			//cur->material = 0;
+		}
+
 		delete cur;
 		objects.pop_back();
 	}

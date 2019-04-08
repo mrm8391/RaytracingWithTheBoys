@@ -59,6 +59,10 @@ void World::clear()
 {
 	for (int i = objects.size()-1; i >= 0; i--) {
 		Object* cur = objects[i];
+
+		//placeholder. should free shadingmodel + materials in world
+		//delete cur->shadingModel;
+
 		delete cur;
 		objects.pop_back();
 	}

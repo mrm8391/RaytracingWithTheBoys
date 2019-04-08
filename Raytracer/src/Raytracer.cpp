@@ -48,7 +48,6 @@ int main()
 	Sphere* smallSphere = new Sphere(smallSpherePoint, 0.75);
 	smallSphere->material = smallSphereMaterial;
 	
-	//debug; light above first sph
 	Point firstLightPoint(-1.0, 5.3, -1.9);
 	LightSource* firstLight = new LightSource(firstLightPoint, 10, 10, 10);
 
@@ -68,8 +67,6 @@ int main()
 	Camera cam(camOrig, lookat, base);
 
 	auto pixels = cam.render(w);
-
-	// pixels is a 2d vector of Vectors of unbounded R,G,B radiances at this point
 	
 	pixels = ToneReproduction::LinearScale(pixels);
 
