@@ -35,6 +35,8 @@ public:
 	// Maximum recursion depth for illuminate calls 
 	static int MAX_ILLUMINATE_DEPTH;
 
+	static Vector BACKGROUND_COLOR;
+
 
 //Instance variables and methods
 public:

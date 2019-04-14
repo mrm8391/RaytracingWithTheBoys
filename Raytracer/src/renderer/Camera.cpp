@@ -19,8 +19,8 @@ using namespace std;
 double Camera::SCREEN_WIDTH = 3.0;
 double Camera::SCREEN_HEIGHT = 3.0;
 
-unsigned int Camera::NUM_PIXELS_HORIZONTAL = 100;
-unsigned int Camera::NUM_PIXELS_VERTICAL = 100;
+unsigned int Camera::NUM_PIXELS_HORIZONTAL = 400;
+unsigned int Camera::NUM_PIXELS_VERTICAL = 400;
 
 double Camera::PIXEL_WIDTH = Camera::SCREEN_WIDTH / Camera::NUM_PIXELS_HORIZONTAL;
 double Camera::PIXEL_HEIGHT = Camera::SCREEN_HEIGHT / Camera::NUM_PIXELS_VERTICAL;
@@ -29,7 +29,7 @@ double Camera::FOCAL_POINT = 5.0;
 
 int Camera::MAX_ILLUMINATE_DEPTH = 1;
 
-Vector BACKGROUND_COLOR = Vector(0.61 * 4, 1.48 * 4, 2.3 * 4);
+Vector Camera::BACKGROUND_COLOR = Vector(0.61 * 4, 1.48 * 4, 2.3 * 4);
 
 Camera::Camera(Point pos, Vector look, Vector base)
 {
@@ -59,9 +59,8 @@ Camera::Camera(Point pos, Vector look, Vector base)
 std::vector<std::vector<Vector>> Camera::render(World world)
 {
 
-	//Initialize virtual screen values. Default value/bg color is black
+	//Initialize virtual screen values. Default value/bg color is blue
 	vector<vector<Vector>> pixels;
-	//Vector backgroundColor = Vector(0.8, 0.8, 2.3);
 	for (int i = 0; i < Camera::NUM_PIXELS_HORIZONTAL; i++) {
 		pixels.push_back(vector<Vector>());
 
@@ -180,8 +179,6 @@ IntersectData Camera::spawnRay(Point position, Vector rayDir) {
 Vector Camera::illuminate(IntersectData intersection, int depth)
 {
 	Vector color;
-	
-	//double ka = intersection.intersectedObject->material->ka;
 
 	if (!intersection.noIntersect) {
 		// We have hit another object.  
@@ -194,6 +191,14 @@ Vector Camera::illuminate(IntersectData intersection, int depth)
 		if (depth < MAX_ILLUMINATE_DEPTH) {
 			// If reflection constant is nonzero, recursively calculate reflection 
 			if (kr > 0.0) {
+				// Spawn ray in reflected direction
+				Vector reflectedDirection = intersection.ray.direction.reflect(intersection.normal);
+				reflectedDirection.normalize();
+
+				IntersectData nextReflection = spawnRay(intersection.intersection, reflectedDirection);
+				Vector reflColor = illuminate(nextReflection, depth + 1);
+
+				color.vec += reflColor.scale(kr).vec;
 
 			}
 

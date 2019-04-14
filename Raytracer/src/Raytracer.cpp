@@ -31,7 +31,7 @@ using Eigen::Vector3d;
 int main()
 {
 	
-	CheckerMaterial * floorMaterial = new CheckerMaterial(17, Vector(1.0, 1.0, 1.0), Vector(0.0, 0.0, 0.0));
+	CheckerMaterial * floorMaterial = new CheckerMaterial(17, Vector(1.0, 0.93, 0.46), Vector(0.9, 0.21, 0.3));
 	floorMaterial->setReflective(0.0, 0.0);
 	Point f1(-2, 0, -6), f2(-2, 0, 6), f3(2, 0, 6), f4(2, 0, -6);
 	Triangle* floor1 = new Triangle(f1, f2, f4);
@@ -40,13 +40,13 @@ int main()
 	floor2->material = floorMaterial;
 
 	SolidMaterial * largeSphereMaterial = new SolidMaterial(Vector(1.0, 0.2, 0.0), 0.8, 0.5, 0.3, 30.0, Vector(1.0, 1.0, 1.0));
-	largeSphereMaterial->setReflective(0.1, 0.0);
+	largeSphereMaterial->setReflective(0.0, 0.0);
 	Point largeSpherePoint(-1.0, 1.3, -1.9);
 	Sphere* largeSphere = new Sphere(largeSpherePoint, 1.0);
 	largeSphere->material = largeSphereMaterial;
 
 	SolidMaterial * smallSphereMaterial = new SolidMaterial(Vector(0.0, 0.0, 1.0), 0.8, 0.5, 0.3, 30.0, Vector(1.0, 1.0, 1.0));
-	smallSphereMaterial->setReflective(0.9, 0.0);
+	smallSphereMaterial->setReflective(0.5, 0.0);
 	Point smallSpherePoint(0.0, .7, -1.2);
 	Sphere* smallSphere = new Sphere(smallSpherePoint, 0.75);
 	smallSphere->material = smallSphereMaterial;
@@ -76,7 +76,7 @@ int main()
 	Imager img(pixels);
 
 	img.displayImage();
-	img.saveImage("checkpoint3");
+	img.saveImage("checkpoint4");
 
 	//Deallocate object memory usage
 	w.clear();
