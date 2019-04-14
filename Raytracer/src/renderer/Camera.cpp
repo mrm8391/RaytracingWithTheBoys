@@ -19,15 +19,15 @@ using namespace std;
 double Camera::SCREEN_WIDTH = 3.0;
 double Camera::SCREEN_HEIGHT = 3.0;
 
-unsigned int Camera::NUM_PIXELS_HORIZONTAL = 400;
-unsigned int Camera::NUM_PIXELS_VERTICAL = 400;
+unsigned int Camera::NUM_PIXELS_HORIZONTAL = 300;
+unsigned int Camera::NUM_PIXELS_VERTICAL = 300;
 
 double Camera::PIXEL_WIDTH = Camera::SCREEN_WIDTH / Camera::NUM_PIXELS_HORIZONTAL;
 double Camera::PIXEL_HEIGHT = Camera::SCREEN_HEIGHT / Camera::NUM_PIXELS_VERTICAL;
 
 double Camera::FOCAL_POINT = 5.0;
 
-int Camera::MAX_ILLUMINATE_DEPTH = 1;
+int Camera::MAX_ILLUMINATE_DEPTH = 5;
 
 Vector Camera::BACKGROUND_COLOR = Vector(0.61 * 4, 1.48 * 4, 2.3 * 4);
 
