@@ -17,6 +17,7 @@
 #include <renderer/materials/SolidMaterial.h>
 #include <renderer/Imager.h>
 #include <renderer/lighting/ToneReproduction.h>
+#include <renderer/materials/CheckerMaterial.h>
 
 using namespace std;
 using Eigen::MatrixXd;
@@ -29,11 +30,11 @@ using Eigen::Vector3d;
 
 int main()
 {
-
-	SolidMaterial * floorMaterial = new SolidMaterial(Vector(1.0, 1.0, 0.0), 0.4, 0.5, 0.3, 1.0, Vector(1.0, 1.0, 1.0));
+	
+	CheckerMaterial * floorMaterial = new CheckerMaterial(3, Vector(1.0, 1.0, 1.0), Vector(0.0, 0.0, 0.0));
 	Point f1(-2, 0, -6), f2(-2, 0, 6), f3(2, 0, 6), f4(2, 0, -6);
 	Triangle* floor1 = new Triangle(f1, f2, f4);
-	Triangle* floor2 = new Triangle(f4, f2, f3);
+	Triangle* floor2 = new Triangle(f3, f4, f2);
 	floor1->material = floorMaterial;
 	floor2->material = floorMaterial;
 
@@ -47,7 +48,6 @@ int main()
 	Sphere* smallSphere = new Sphere(smallSpherePoint, 0.75);
 	smallSphere->material = smallSphereMaterial;
 	
-	//debug; light above first sph
 	Point firstLightPoint(-1.0, 5.3, -1.9);
 	LightSource* firstLight = new LightSource(firstLightPoint, 10, 10, 10);
 
@@ -59,7 +59,7 @@ int main()
 	w.addLightSource(firstLight);
 
 
-	Point camOrig(-.8, .7, -8.14);
+	Point camOrig(-.8, .7, -12.14);
 	Point worldOrig(0, 0, 0);
 	Vector lookat(0, 0, 1);
 	Vector base(0, 1, 0);
@@ -67,8 +67,6 @@ int main()
 	Camera cam(camOrig, lookat, base);
 
 	auto pixels = cam.render(w);
-
-	// pixels is a 2d vector of Vectors of unbounded R,G,B radiances at this point
 	
 	pixels = ToneReproduction::LinearScale(pixels);
 
@@ -80,6 +78,10 @@ int main()
 	//Deallocate object memory usage
 	w.clear();
 	cam.clear();
+
+	delete floorMaterial;
+	delete smallSphereMaterial;
+	delete largeSphereMaterial;
 
     return 0;
 }

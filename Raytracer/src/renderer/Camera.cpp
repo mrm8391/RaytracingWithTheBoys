@@ -151,7 +151,8 @@ std::vector<std::vector<Vector>> Camera::render(World world)
 					} 
 					//if collision with an obj, shadow ray
 					else {
-						color = closestInter.intersectedObject->material->colorAtUV(0,0);
+						//color = closestInter.intersectedObject->material->colorAtUV(0,0);
+						color = Vector(0, 0, 0);
 					}
 
 				}
@@ -210,7 +211,20 @@ void Camera::clear()
 	for (int i = objects.size() - 1; i >= 0; i--) {
 		Object* cur = objects[i];
 		delete cur->shadingModel;
+
+		//placeholder. should copy/free material in here...
+		if (cur->material != 0) {
+			//delete cur->material;
+			//cur->material = 0;
+		}
+
 		delete cur;
 		objects.pop_back();
+	}
+
+	for (int i = lights.size() - 1; i >= 0; i--) {
+		LightSource* cur = lights[i];
+		delete cur;
+		lights.pop_back();
 	}
 }

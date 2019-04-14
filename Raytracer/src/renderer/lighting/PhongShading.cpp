@@ -11,7 +11,7 @@ PhongShading::PhongShading()
 Vector PhongShading::shade(LightSource light, Ray incoming, IntersectData inter)
 {
 	// Material properties
-	Vector objColor = inter.intersectedObject->material->colorAtUV(0,0); // at (0,0) is a placeholder, this call should be moved out of this method(?)
+	Vector objColor = inter.intersectedObject->material->colorAtUV(inter.u,inter.v);
 	Vector specColor = inter.intersectedObject->material->specColor;
 
 	double ka = inter.intersectedObject->material->ka;
