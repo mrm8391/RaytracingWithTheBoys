@@ -235,7 +235,7 @@ Vector Camera::locallyShade(IntersectData closestInter) {
 		}
 		//if collision with an obj, shadow ray
 		else {
-			color = closestInter.intersectedObject->material->colorAtUV(0, 0);
+			color = closestInter.intersectedObject->material->colorAtUV(closestInter.u, closestInter.v);
 		}
 	}
 
