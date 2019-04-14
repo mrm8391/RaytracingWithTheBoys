@@ -12,6 +12,7 @@ Camera object, for defining the viewing perspective.
 #include <renderer/Vector.h>
 #include <prims/Object.h>
 #include <renderer/World.h>
+#include <renderer/materials/Material.h>
 
 class Camera {
 
@@ -100,7 +101,7 @@ public:
 	/*
 	Calculates reflected light coming off of this object in the direction of the IntersectData parameter. 
 	*/
-	Vector illuminate(IntersectData intersection);
+	Vector illuminate(IntersectData intersection, int depth);
 
 	/*
 	Calculates local illumination from shadow rays of all lightsources in this->lights
@@ -108,7 +109,7 @@ public:
 	@param closestInter: intersection of ray with the object being shaded
 	@param rayFromOutgoing: The ray coming from the direction in which we need to know the radiosity coming off of the object
 	*/
-	Vector locallyShade(IntersectData closestInter, Ray rayFromOutgoing);
+	Vector locallyShade(IntersectData closestInter);
 
 	/*
 	Clear all objects in camera and deallocate from the heap. Identical to world's clear function.

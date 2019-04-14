@@ -19,8 +19,8 @@ using namespace std;
 double Camera::SCREEN_WIDTH = 3.0;
 double Camera::SCREEN_HEIGHT = 3.0;
 
-unsigned int Camera::NUM_PIXELS_HORIZONTAL = 200;
-unsigned int Camera::NUM_PIXELS_VERTICAL = 200;
+unsigned int Camera::NUM_PIXELS_HORIZONTAL = 100;
+unsigned int Camera::NUM_PIXELS_VERTICAL = 100;
 
 double Camera::PIXEL_WIDTH = Camera::SCREEN_WIDTH / Camera::NUM_PIXELS_HORIZONTAL;
 double Camera::PIXEL_HEIGHT = Camera::SCREEN_HEIGHT / Camera::NUM_PIXELS_VERTICAL;
@@ -28,6 +28,8 @@ double Camera::PIXEL_HEIGHT = Camera::SCREEN_HEIGHT / Camera::NUM_PIXELS_VERTICA
 double Camera::FOCAL_POINT = 5.0;
 
 int Camera::MAX_ILLUMINATE_DEPTH = 1;
+
+Vector BACKGROUND_COLOR = Vector(0.61 * 4, 1.48 * 4, 2.3 * 4);
 
 Camera::Camera(Point pos, Vector look, Vector base)
 {
@@ -59,12 +61,12 @@ std::vector<std::vector<Vector>> Camera::render(World world)
 
 	//Initialize virtual screen values. Default value/bg color is black
 	vector<vector<Vector>> pixels;
-	Vector backgroundColor = Vector(0.8, 0.8, 2.3);
+	//Vector backgroundColor = Vector(0.8, 0.8, 2.3);
 	for (int i = 0; i < Camera::NUM_PIXELS_HORIZONTAL; i++) {
 		pixels.push_back(vector<Vector>());
 
 		for (int j = 0; j < Camera::NUM_PIXELS_VERTICAL; j++) {
-			pixels[i].push_back(backgroundColor);
+			pixels[i].push_back(BACKGROUND_COLOR);
 		}
 	}
 
@@ -122,20 +124,12 @@ std::vector<std::vector<Vector>> Camera::render(World world)
 			);
 
 			Vector rayDir = pixelPos.subtract(cameraOrigin);
+			rayDir.normalize();
 
 			IntersectData closestInter = spawnRay(pixelPos, rayDir);
-
-			// here is where to make call to our Illuminate method
-			if (!closestInter.noIntersect) {
-				// We have spawned a ray from the camera and hit an object in the scene!
-
-				rayDir.normalize();
-				Ray rayFromCamera(pixelPos, rayDir);
-
-				// Calculates color at that point due to shadow rays
-				Vector color = locallyShade(closestInter, rayFromCamera);
-				pixels[x][y] = color;
-			}
+			
+			Vector color = illuminate(closestInter, 0);
+			pixels[x][y] = color;
 		}
 	}
 
@@ -179,15 +173,45 @@ IntersectData Camera::spawnRay(Point position, Vector rayDir) {
 		}
 	}
 
+	closestInter.ray = ray;
 	return closestInter; 
 }
 
-Vector Camera::illuminate(IntersectData intersection)
+Vector Camera::illuminate(IntersectData intersection, int depth)
 {
-	return Vector();
+	Vector color;
+	
+	//double ka = intersection.intersectedObject->material->ka;
+
+	if (!intersection.noIntersect) {
+		// We have hit another object.  
+		double kr = intersection.intersectedObject->material->kr;
+		double kt = intersection.intersectedObject->material->kt;
+
+		// Calculates color at that point due to shadow rays 
+		color = locallyShade(intersection);
+
+		if (depth < MAX_ILLUMINATE_DEPTH) {
+			// If reflection constant is nonzero, recursively calculate reflection 
+			if (kr > 0.0) {
+
+			}
+
+			// If transmission constant is nonzero, recursively calculate transmission 
+			if (kt > 0.0) {
+				// STUB  
+			}
+		}
+	}
+	else {
+		// We have not hit another object. The light coming back along this ray is the background color. 
+		color = BACKGROUND_COLOR;
+	}
+
+	return color;
 }
 
-Vector Camera::locallyShade(IntersectData closestInter, Ray rayFromOutgoing) {
+Vector Camera::locallyShade(IntersectData closestInter) {
 	Vector color;
 
 	// need to spawn ray from closestInter.intersection to each light source.
@@ -199,7 +223,7 @@ Vector Camera::locallyShade(IntersectData closestInter, Ray rayFromOutgoing) {
 		// if it reaches the light source without intersection, then closestInter.intersectedObject->shade() gives the color
 		if (potentialBlocker.noIntersect) {
 			Ray ray(closestInter.intersection, lightSourceRayDir);
-			color = closestInter.intersectedObject->shade(*light, rayFromOutgoing, closestInter);
+			color = closestInter.intersectedObject->shade(*light, closestInter.ray, closestInter);
 
 			// change: reflect change in parameters: new params for all shading models.shade() will be: 
 			// not LightSOurce anymore, but instead our own Vector containing redRad, greenRad, blueRad, and then a Position
