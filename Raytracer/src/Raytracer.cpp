@@ -31,7 +31,7 @@ using Eigen::Vector3d;
 int main()
 {
 	
-	CheckerMaterial * floorMaterial = new CheckerMaterial(3, Vector(1.0, 1.0, 1.0), Vector(0.0, 0.0, 0.0));
+	CheckerMaterial * floorMaterial = new CheckerMaterial(17, Vector(1.0, 1.0, 1.0), Vector(0.0, 0.0, 0.0));
 	Point f1(-2, 0, -6), f2(-2, 0, 6), f3(2, 0, 6), f4(2, 0, -6);
 	Triangle* floor1 = new Triangle(f1, f2, f4);
 	Triangle* floor2 = new Triangle(f3, f4, f2);
