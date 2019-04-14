@@ -24,7 +24,7 @@ public:
 	Calculates points of intersection, in world coordinates, of ray with sphere.
 	Ray's direction MUST BE NORMALIZED
 	*/
-	IntersectData intersect(Ray ray);
+	std::vector<IntersectData> intersect(Ray ray);
 
 	/*
 	Translates center point of the sphere by x, y, and z.

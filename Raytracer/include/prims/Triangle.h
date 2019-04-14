@@ -21,7 +21,7 @@ public:
 	Calculates point of intersection, in world coordinates, of ray with triangle.
 	Ray must be normalized.
 	*/
-	IntersectData intersect(Ray ray);
+	std::vector<IntersectData> intersect(Ray ray);
 
 	/*
 	Translates all points of the triangle by x, y, and z. 

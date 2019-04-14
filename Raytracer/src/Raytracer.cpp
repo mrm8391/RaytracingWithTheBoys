@@ -51,7 +51,7 @@ int main()
 	Sphere* smallSphere = new Sphere(smallSpherePoint, 0.75);
 	smallSphere->material = smallSphereMaterial;
 	
-	Point firstLightPoint(-1.0, 5.3, -1.9);
+	Point firstLightPoint(-1.8, 4.75, -6.0);
 	LightSource* firstLight = new LightSource(firstLightPoint, 10, 10, 10);
 
 	World w;

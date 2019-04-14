@@ -46,6 +46,19 @@ typedef struct IntersectData_{
 	{
 	}
 
+	IntersectData_(const IntersectData_& other)
+	{
+		this->distance = other.distance;
+		this->normal = other.normal;
+		this->intersectedObject = other.intersectedObject;
+		this->intersection = other.intersection;
+		this->u = other.u;
+		this->v = other.v;
+		this->noIntersect = other.noIntersect;
+		this->ray = other.ray;
+
+	}
+
 } IntersectData;
 
 #endif

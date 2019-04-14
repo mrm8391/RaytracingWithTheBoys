@@ -56,7 +56,7 @@ public:
 
 	The ray must be normalized, otherwise there will be undefined behavior.
 	*/
-	virtual IntersectData intersect(Ray ray);
+	virtual std::vector<IntersectData> intersect(Ray ray);
 
 	/*
 	At a given point of intersection, compute the radiance collected on that point for the object.
