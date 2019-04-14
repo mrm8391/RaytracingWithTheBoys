@@ -199,12 +199,18 @@ Vector Camera::illuminate(IntersectData intersection, int depth)
 				Vector reflColor = illuminate(nextReflection, depth + 1);
 
 				color.vec += reflColor.scale(kr).vec;
-
 			}
 
 			// If transmission constant is nonzero, recursively calculate transmission 
 			if (kt > 0.0) {
-				// STUB  
+				// Spawn ray in reflected direction
+				//Vector transmittedDirection = SUM BIG CALCULATION
+				//transmittedDirection.normalize();
+
+				//IntersectData nextTransmission = spawnRay(intersection.intersection, transmittedDirection);
+				//Vector transmColor = illuminate(nextTransmission, depth + 1);
+
+				//color.vec += transmColor.scale(kt).vec;
 			}
 		}
 	}
