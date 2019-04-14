@@ -27,7 +27,7 @@ double Camera::PIXEL_HEIGHT = Camera::SCREEN_HEIGHT / Camera::NUM_PIXELS_VERTICA
 
 double Camera::FOCAL_POINT = 5.0;
 
-int Camera::MAX_ILLUMINATE_DEPTH = 5;
+int Camera::MAX_ILLUMINATE_DEPTH = 1;
 
 Vector Camera::BACKGROUND_COLOR = Vector(0.61 * 4, 1.48 * 4, 2.3 * 4);
 
