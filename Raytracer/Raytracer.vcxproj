@@ -426,7 +426,6 @@
     <ClInclude Include="include\renderer\materials\CheckerMaterial.h" />
     <ClInclude Include="include\renderer\materials\Material.h" />
     <ClInclude Include="include\prims\Object.h" />
-    <ClInclude Include="include\prims\Plane.h" />
     <ClInclude Include="include\prims\Sphere.h" />
     <ClInclude Include="include\prims\Triangle.h" />
     <ClInclude Include="include\renderer\Camera.h" />
@@ -459,7 +458,6 @@
     <ClCompile Include="src\renderer\Vector.cpp" />
     <ClCompile Include="src\renderer\World.cpp" />
     <ClCompile Include="src\prims\Object.cpp" />
-    <ClCompile Include="src\prims\Plane.cpp" />
     <ClCompile Include="src\prims\Sphere.cpp" />
     <ClCompile Include="src\Raytracer.cpp" />
     <ClCompile Include="src\utils\Transforms.cpp" />

@@ -1,12 +1,16 @@
 #include <prims/Sphere.h>
 #include <algorithm>
 
+using namespace std;
+
 Sphere::Sphere() : Object()
 {
 }
 
-IntersectData Sphere::intersect(Ray ray)
+vector<IntersectData> Sphere::intersect(Ray ray)
 {
+	vector<IntersectData> intersections;
+
 	double dx = ray.direction.vec[0];
 	double dy = ray.direction.vec[1];
 	double dz = ray.direction.vec[2];
@@ -33,42 +37,65 @@ IntersectData Sphere::intersect(Ray ray)
 		pow(radius, 2.0);
 
 	// omega is calculated via quadratic function, and is used to find intersection point.
-	double omega;
+	double omegaA, omegaB;
+	bool twoIntersections = true;
 
 	// Discriminant of quadratic equation: (B^2) - 4C
 	double discriminant = pow(B, 2.0) - 4 * C;
 	 
 	if (discriminant < 0.0) {
 		// ((B^2) - 4C < 0): no intersection
-		return IntersectData();
+		return intersections;
 	}
 	else if (discriminant == 0.0) {
 		// ((B^2) - 4C = 0): ray intersects at sphere's surface
-		omega = -B / 2.0;
+		omegaA = -B / 2.0;
+		twoIntersections = false;
 	}
 	else {
 		// ((B^2) - 4C > 0): ray goes through sphere. Use least positive root for ((B^2) - 4C)^.5
-		double omegaA = (-B + sqrt(discriminant)) / 2.0;
-		double omegaB = (-B - sqrt(discriminant)) / 2.0;
+		omegaA = (-B + sqrt(discriminant)) / 2.0;
+		omegaB = (-B - sqrt(discriminant)) / 2.0;
 
-		omega = std::min(omegaA, omegaB);
+		//omega = std::min(omegaA, omegaB);
 	}
 
 	// Calculate point based on the omega of closest point
-	Point worldCoordsIntersection(
-		x0 + (dx * omega),
-		y0 + (dy * omega),
-		z0 + (dz * omega));
+	Point worldCoordsIntersectionA(
+		x0 + (dx * omegaA),
+		y0 + (dy * omegaA),
+		z0 + (dz * omegaA));
 
 	// Normal vector: (x, y, z) = (xi–xc), (yi–yc), (zi–zc)) normalized, where xi, yi, and zi are intersection coords
-	Vector normal(
-		worldCoordsIntersection.vec[0] - xC,
-		worldCoordsIntersection.vec[1] - yC,
-		worldCoordsIntersection.vec[2] - zC);
+	Vector normalA(
+		worldCoordsIntersectionA.vec[0] - xC,
+		worldCoordsIntersectionA.vec[1] - yC,
+		worldCoordsIntersectionA.vec[2] - zC);
 
-	normal.normalize();
+	normalA.normalize();
 
-	return IntersectData(omega, normal, this, worldCoordsIntersection);
+	IntersectData interA(omegaA, normalA, this, worldCoordsIntersectionA);
+	intersections.push_back(interA);
+
+	//now do the same calculations for intersection B if there exists one
+	if (twoIntersections) {
+		Point worldCoordsIntersectionB(
+			x0 + (dx * omegaB),
+			y0 + (dy * omegaB),
+			z0 + (dz * omegaB));
+
+		Vector normalB(
+			worldCoordsIntersectionB.vec[0] - xC,
+			worldCoordsIntersectionB.vec[1] - yC,
+			worldCoordsIntersectionB.vec[2] - zC);
+
+		normalB.normalize();
+
+		IntersectData interB(omegaB, normalB, this, worldCoordsIntersectionB);
+		intersections.push_back(interB);
+	}
+
+	return intersections;
 }
 
 void Sphere::translate(double x, double y, double z)

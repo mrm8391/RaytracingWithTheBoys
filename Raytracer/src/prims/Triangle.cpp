@@ -4,14 +4,18 @@
 #include <renderer/IntersectData.h>
 #include <iostream>
 
+using namespace std;
+
 Triangle::Triangle(Point p0, Point p1, Point p2) {
 	this->p0 = Point(p0);
 	this->p1 = Point(p1);
 	this->p2 = Point(p2);
 }
 
-IntersectData Triangle::intersect(Ray ray)
+vector<IntersectData> Triangle::intersect(Ray ray)
 {
+	vector<IntersectData> intersections;
+
 	// D = direction vector of ray (ray.direction)
 
 	// e1 = p1-p0
@@ -41,7 +45,7 @@ IntersectData Triangle::intersect(Ray ray)
 	
 	// If P * e1 = 0, ray is parallel to triangle, and there is no intersection
 	if (divisor == 0.0) {
-		return IntersectData();
+		return intersections;
 	}
 
 	// Otherwise, ray is not parallel to triangle
@@ -54,7 +58,7 @@ IntersectData Triangle::intersect(Ray ray)
 
 	// u < 0, v < 0, u+v> 1, then intersection point is outside of triangle.
 	if (u < 0.0 || v < 0.0 || (u + v) > 1.0) {
-		return IntersectData();
+		return intersections;
 	}
 
 	// Calculate intersect in world coordinates from origin of ray, direction of ray, and distance along direction.
@@ -71,7 +75,9 @@ IntersectData Triangle::intersect(Ray ray)
 	inter.u = u;
 	inter.v = v;
 
-	return inter;
+	intersections.push_back(inter);
+
+	return intersections;
 }
 
 void Triangle::translate(double x, double y, double z) {

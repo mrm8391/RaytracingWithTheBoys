@@ -1,5 +1,7 @@
 #include <prims/Object.h>
 
+using namespace std;
+
 Object::Object() : Object(0,0,0)
 {
 	
@@ -17,9 +19,9 @@ Object::Object(double x, double y, double z, ShadingModel shad) {
 	this->material = 0;
 }
 
-IntersectData Object::intersect(Ray ray)
+vector<IntersectData> Object::intersect(Ray ray)
 {
-	return IntersectData();
+	return vector<IntersectData>();
 }
 
 Vector Object::shade(LightSource light, Ray incoming, IntersectData inter)

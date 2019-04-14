@@ -36,9 +36,6 @@
     <ClInclude Include="include\prims\Sphere.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\prims\Plane.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\renderer\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -896,9 +893,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\prims\Plane.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\prims\Sphere.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

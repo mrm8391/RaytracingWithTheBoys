@@ -160,15 +160,25 @@ IntersectData Camera::spawnRay(Point position, Vector rayDir) {
 
 	for (Object* obj : this->objects) {
 
-		IntersectData inter = obj->intersect(ray);
-		if (!inter.noIntersect) { // if there is an intersection
+		vector<IntersectData> inters = obj->intersect(ray);
+		if (!inters.empty()) { // if there is an intersection
 			
-			//prevent backwards inters, and intersection with itself if spawning ray from obj
-			if (inter.distance < 0.001)
-				continue;
+			//Find the closest intersection on this object that isn't the same point where the ray originated.
+			//Hack to get objects to cast shadows on themselves.
+			IntersectData closestOnObj;
+			for (IntersectData& in : inters) {
 
-			if (closestInter.noIntersect || inter.distance < closestInter.distance) { // if there was no intersection before, or this intersection is closer
-				closestInter = inter;
+				//Ignore intersections behind spawned ray as well as points near ray spawn point
+				if (in.distance < 0.0001)
+					continue;
+
+				else if (closestOnObj.noIntersect || closestInter.distance < in.distance) {
+					closestOnObj = in;
+				}
+			}
+
+			if (closestInter.noIntersect || closestOnObj.distance < closestInter.distance) { // if there was no intersection before, or this intersection is closer
+				closestInter = closestOnObj;
 			}
 		}
 	}
