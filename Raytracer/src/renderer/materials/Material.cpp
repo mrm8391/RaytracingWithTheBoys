@@ -26,3 +26,9 @@ Vector Material::colorAtUV(double u, double v)
 {
 	return Vector(1.0,1.0,1.0);
 }
+
+void Material::setReflective(double r, double t)
+{
+	this->kr = r;
+	this->kt = t;
+}

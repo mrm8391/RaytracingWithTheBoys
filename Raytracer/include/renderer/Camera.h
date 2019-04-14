@@ -31,6 +31,9 @@ public:
 	//Distance from camera to virtual screen ("Focal point")
 	static double FOCAL_POINT;
 
+	// Maximum recursion depth for illuminate calls 
+	static int MAX_ILLUMINATE_DEPTH;
+
 
 //Instance variables and methods
 public:
@@ -93,6 +96,19 @@ public:
 	If no intersection with an object is found, then its returned IntersectData instance will have noIntersect = TRUE.
 	*/
 	IntersectData spawnRay(Point position, Vector rayDir);
+
+	/*
+	Calculates reflected light coming off of this object in the direction of the IntersectData parameter. 
+	*/
+	Vector illuminate(IntersectData intersection);
+
+	/*
+	Calculates local illumination from shadow rays of all lightsources in this->lights
+
+	@param closestInter: intersection of ray with the object being shaded
+	@param rayFromOutgoing: The ray coming from the direction in which we need to know the radiosity coming off of the object
+	*/
+	Vector locallyShade(IntersectData closestInter, Ray rayFromOutgoing);
 
 	/*
 	Clear all objects in camera and deallocate from the heap. Identical to world's clear function.

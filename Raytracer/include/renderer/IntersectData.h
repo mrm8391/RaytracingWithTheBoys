@@ -7,6 +7,7 @@ a ray-object intersection.
 #define RT_INTERSECT_H
 
 #include <renderer/Point.h>
+#include <renderer/Ray.h>
 
 class Object;
 
@@ -30,6 +31,9 @@ typedef struct IntersectData_{
 
 	//If true, no intersection occurs
 	bool noIntersect;
+
+	// The ray which intersected the object
+	Ray ray;
 
 	/*
 	Default constructor to indicate no intersection

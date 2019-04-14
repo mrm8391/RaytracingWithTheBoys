@@ -24,6 +24,10 @@ public:
 	double ks;
 	// specular exponent
 	double ke;
+	// reflection constant
+	double kr;
+	// transmittion constant
+	double kt;
 
 	// Color of specular highlight
 	Vector specColor;
@@ -33,6 +37,7 @@ public:
 	// Returns color
 	virtual Vector colorAtUV(double u, double v);
 
+	void setReflective(double r, double t);
 };
 
 #endif
