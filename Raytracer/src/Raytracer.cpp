@@ -41,13 +41,13 @@ int main()
 
 	SolidMaterial * largeSphereMaterial = new SolidMaterial(Vector(1.0, 0.2, 0.0), 0.8, 0.5, 0.3, 30.0, Vector(1.0, 1.0, 1.0));
 	largeSphereMaterial->setReflective(0.1, 0.0);
-	Point largeSpherePoint(-1.0, 1.3, -1.9);
+	Point largeSpherePoint(-1.0, 1.4, -1.9);
 	Sphere* largeSphere = new Sphere(largeSpherePoint, 1.0);
 	largeSphere->material = largeSphereMaterial;
 
 	SolidMaterial * smallSphereMaterial = new SolidMaterial(Vector(0.0, 0.0, 1.0), 0.8, 0.5, 0.3, 30.0, Vector(1.0, 1.0, 1.0));
 	smallSphereMaterial->setReflective(0.5, 0.0);
-	Point smallSpherePoint(0.0, .7, -1.2);
+	Point smallSpherePoint(0.0, .8, -1.2);
 	Sphere* smallSphere = new Sphere(smallSpherePoint, 0.75);
 	smallSphere->material = smallSphereMaterial;
 	

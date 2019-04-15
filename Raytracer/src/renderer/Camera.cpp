@@ -171,7 +171,7 @@ IntersectData Camera::spawnRay(Point position, Vector rayDir) {
 				if (in.distance < 0.0001)
 					continue;
 
-				else if (closestOnObj.noIntersect || closestInter.distance < in.distance) {
+				else if (closestOnObj.noIntersect || in.distance < closestOnObj.distance) {
 					closestOnObj = in;
 				}
 			}
