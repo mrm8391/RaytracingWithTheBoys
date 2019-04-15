@@ -16,7 +16,9 @@ Object::Object(double x, double y, double z, ShadingModel shad) {
 	PhongShading* p = new PhongShading();
 	this->shadingModel = p;
 
-	this->material = 0;
+	this->outerMaterial = 0;
+	this->innerMaterial = 0;
+}
 }
 
 vector<IntersectData> Object::intersect(Ray ray)

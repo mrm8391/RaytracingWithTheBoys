@@ -118,7 +118,7 @@ Object * Sphere::copy()
 
 	s->id = this->id;
 	s->pos = Point(this->pos);
-	s->material = this->material;
+	s->outerMaterial = this->outerMaterial;
 	s->radius = this->radius;
 
 	return s;

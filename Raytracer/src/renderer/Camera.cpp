@@ -19,8 +19,8 @@ using namespace std;
 double Camera::SCREEN_WIDTH = 3.0;
 double Camera::SCREEN_HEIGHT = 3.0;
 
-unsigned int Camera::NUM_PIXELS_HORIZONTAL = 300;
-unsigned int Camera::NUM_PIXELS_VERTICAL = 300;
+unsigned int Camera::NUM_PIXELS_HORIZONTAL = 100;
+unsigned int Camera::NUM_PIXELS_VERTICAL = 100;
 
 double Camera::PIXEL_WIDTH = Camera::SCREEN_WIDTH / Camera::NUM_PIXELS_HORIZONTAL;
 double Camera::PIXEL_HEIGHT = Camera::SCREEN_HEIGHT / Camera::NUM_PIXELS_VERTICAL;
@@ -192,8 +192,8 @@ Vector Camera::illuminate(IntersectData intersection, int depth)
 
 	if (!intersection.noIntersect) {
 		// We have hit another object.  
-		double kr = intersection.intersectedObject->material->kr;
-		double kt = intersection.intersectedObject->material->kt;
+		double kr = intersection.intersectedObject->outerMaterial->kr;
+		double kt = intersection.intersectedObject->outerMaterial->kt;
 
 		// Calculates color at that point due to shadow rays 
 		color = locallyShade(intersection);
@@ -251,7 +251,7 @@ Vector Camera::locallyShade(IntersectData closestInter) {
 		}
 		//if collision with an obj, shadow ray
 		else {
-			color = closestInter.intersectedObject->material->colorAtUV(closestInter.u, closestInter.v);
+			color = closestInter.intersectedObject->outerMaterial->colorAtUV(closestInter.u, closestInter.v);
 		}
 	}
 
@@ -266,9 +266,9 @@ void Camera::clear()
 		delete cur->shadingModel;
 
 		//placeholder. should copy/free material in here...
-		if (cur->material != 0) {
-			//delete cur->material;
-			//cur->material = 0;
+		if (cur->outerMaterial != 0) {
+			//delete cur->outerMaterial;
+			//cur->outerMaterial = 0;
 		}
 
 		delete cur;
