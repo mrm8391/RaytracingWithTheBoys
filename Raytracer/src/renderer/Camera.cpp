@@ -28,7 +28,7 @@ double Camera::PIXEL_HEIGHT = Camera::SCREEN_HEIGHT / Camera::NUM_PIXELS_VERTICA
 
 double Camera::FOCAL_POINT = 5.0;
 
-int Camera::MAX_ILLUMINATE_DEPTH = 1;
+int Camera::MAX_ILLUMINATE_DEPTH = 3;
 
 Vector Camera::BACKGROUND_COLOR = Vector(0.61 * 4, 1.48 * 4, 2.3 * 4);
 
@@ -185,6 +185,12 @@ IntersectData Camera::spawnRay(Ray spawnedRay) {
 	}
 
 	closestInter.ray = spawnedRay;
+
+	//invert normal if ray is refracting and intersecting inside of object
+	if (closestInter.intersectedObject == spawnedRay.spawnedInside) {
+		closestInter.normal = closestInter.normal.scale(-1);
+	}
+
 	return closestInter; 
 }
 

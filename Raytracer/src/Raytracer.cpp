@@ -41,11 +41,15 @@ int main()
 	floor1->setMaterials(floorMaterial, invisibleMaterial);
 	floor2->setMaterials(floorMaterial, invisibleMaterial);
 	
-	SolidMaterial * largeSphereMaterial = new SolidMaterial(Vector(1.0, 0.2, 0.0), 0.8, 0.5, 0.3, 30.0, Vector(1.0, 1.0, 1.0));
-	largeSphereMaterial->setReflective(0.1, 0.0);
+	SolidMaterial * largeSphereMaterial = new SolidMaterial(Vector(0.0, 0.0, 0.0), 0.8, 0.5, 0.3, 30.0, Vector(0.0, 0.0, 0.0));
+	SolidMaterial * innerGlassMaterial = new SolidMaterial(Vector(0.0,0.0, 0.0), 0.0, 0.0, 0.0, 0.0, Vector(0.0, 0.0, 0.0));
+	largeSphereMaterial->setReflective(0.1, 0.8);
+	innerGlassMaterial->setReflective(0.0, 0.8);
+	largeSphereMaterial->n = 1.0;
+	innerGlassMaterial->n = 1.0;
 	Point largeSpherePoint(-1.0, 1.4, -1.9);
 	Sphere* largeSphere = new Sphere(largeSpherePoint, 1.0);
-	largeSphere->setMaterials(largeSphereMaterial, invisibleMaterial);
+	largeSphere->setMaterials(largeSphereMaterial, innerGlassMaterial);
 
 	SolidMaterial * smallSphereMaterial = new SolidMaterial(Vector(0.0, 0.0, 1.0), 0.8, 0.5, 0.3, 30.0, Vector(1.0, 1.0, 1.0));
 	smallSphereMaterial->setReflective(0.5, 0.0);
@@ -64,9 +68,11 @@ int main()
 	w.addLightSource(firstLight);
 
 
-	Point camOrig(-.8, .7, -12.14);
+	//Point camOrig(-.8, .7, -12.14);
+	Point camOrig(-.8, 10.7, -12.14);
 	Point worldOrig(0, 0, 0);
-	Vector lookat(0, 0, 1);
+	//Vector lookat(0, 0, 1);
+	Vector lookat(0, .5, .5);
 	Vector base(0, 1, 0);
 
 	Camera cam(camOrig, lookat, base);
@@ -88,6 +94,7 @@ int main()
 	delete floorMaterial;
 	delete smallSphereMaterial;
 	delete largeSphereMaterial;
+	delete innerGlassMaterial;
 
     return 0;
 }
