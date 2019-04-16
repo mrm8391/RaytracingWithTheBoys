@@ -26,7 +26,7 @@ unsigned int Camera::NUM_PIXELS_VERTICAL = 100;
 double Camera::PIXEL_WIDTH = Camera::SCREEN_WIDTH / Camera::NUM_PIXELS_HORIZONTAL;
 double Camera::PIXEL_HEIGHT = Camera::SCREEN_HEIGHT / Camera::NUM_PIXELS_VERTICAL;
 
-double Camera::FOCAL_POINT = 5.0;
+double Camera::FOCAL_POINT = 4.0;
 
 int Camera::MAX_ILLUMINATE_DEPTH = 3;
 

@@ -41,23 +41,23 @@ int main()
 	floor1->setMaterials(floorMaterial, invisibleMaterial);
 	floor2->setMaterials(floorMaterial, invisibleMaterial);
 	
-	SolidMaterial * largeSphereMaterial = new SolidMaterial(Vector(1.0, 0.0, 0.0), 0.8, 0.5, 0.3, 30.0, Vector(0.0, 0.0, 0.0));
+	SolidMaterial * largeSphereMaterial = new SolidMaterial(Vector(0.8, 0.0, 0.0), 0.8, 0.5, 0.3, 30.0, Vector(1.0, 1.0, 1.0));
 	SolidMaterial * innerGlassMaterial = new SolidMaterial(Vector(0.0,0.0, 0.0), 0.0, 0.0, 0.0, 0.0, Vector(0.0, 0.0, 0.0));
-	largeSphereMaterial->setReflective(0.1, 0.9);
+	largeSphereMaterial->setReflective(0.0, 0.0);
 	innerGlassMaterial->setReflective(0.0, 1.0);
-	largeSphereMaterial->n = 1.1;
-	innerGlassMaterial->n = 1.1;
-	Point largeSpherePoint(-1.0, 1.4, -1.9);
-	Sphere* largeSphere = new Sphere(largeSpherePoint, 1.0);
+	largeSphereMaterial->n = 1.0;
+	innerGlassMaterial->n = 1.0;
+	Point largeSpherePoint(-0.6, 1.5, -5.5);
+	Sphere* largeSphere = new Sphere(largeSpherePoint, 0.65);
 	largeSphere->setMaterials(largeSphereMaterial, innerGlassMaterial);
 
 	SolidMaterial * smallSphereMaterial = new SolidMaterial(Vector(0.0, 0.0, 1.0), 0.8, 0.5, 0.3, 30.0, Vector(1.0, 1.0, 1.0));
 	smallSphereMaterial->setReflective(0.5, 0.0);
-	Point smallSpherePoint(0.0, .8, -1.2);
-	Sphere* smallSphere = new Sphere(smallSpherePoint, 0.75);
+	Point smallSpherePoint(0.25, .75, -4.0);
+	Sphere* smallSphere = new Sphere(smallSpherePoint, 0.55);
 	smallSphere->setMaterials(smallSphereMaterial, invisibleMaterial);
 	
-	Point firstLightPoint(-1.8, 4.75, 16.0);
+	Point firstLightPoint(-0.9, 5.0, -12.0);
 	LightSource* firstLight = new LightSource(firstLightPoint, 10, 10, 10);
 
 	World w;
@@ -68,11 +68,11 @@ int main()
 	w.addLightSource(firstLight);
 
 
-	//Point camOrig(-.8, .7, -12.14);
-	Point camOrig(-.8, 10.7, -12.14);
+	Point camOrig(-.45, 1.5, -10.0);
+	//Point camOrig(-.8, 10.7, -12.14);
 	Point worldOrig(0, 0, 0);
-	//Vector lookat(0, 0, 1);
-	Vector lookat(0, .5, .5);
+	Vector lookat(0, 0, 1.0);
+	//Vector lookat(0, .5, .5);
 	Vector base(0, 1, 0);
 
 	Camera cam(camOrig, lookat, base);
