@@ -15,7 +15,10 @@ public:
 
 	Material(double a, double d, double s, double e, Vector specular = Vector(1.0,1.0,1.0));
 
+	//
 	// Phong constants
+	//
+
 	// ambient constant
 	double ka;
 	// diffuse constant
@@ -24,10 +27,17 @@ public:
 	double ks;
 	// specular exponent
 	double ke;
+
+	//
+	// Ray constants
+	//
+
 	// reflection constant
 	double kr;
 	// transmittion constant
 	double kt;
+	// index of refraction
+	double n;
 
 	// Color of specular highlight
 	Vector specColor;

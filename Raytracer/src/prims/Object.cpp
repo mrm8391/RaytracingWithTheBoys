@@ -19,6 +19,11 @@ Object::Object(double x, double y, double z, ShadingModel shad) {
 	this->outerMaterial = 0;
 	this->innerMaterial = 0;
 }
+
+void Object::setMaterials(Material * outer, Material * inner)
+{
+	this->innerMaterial = inner;
+	this->outerMaterial = outer;
 }
 
 vector<IntersectData> Object::intersect(Ray ray)

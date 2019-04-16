@@ -37,6 +37,10 @@ public:
 
 	static Vector BACKGROUND_COLOR;
 
+	//Index of refraction outside of objects (air).
+	//Will probably be 1.0 unless you're doing something funky
+	static double ATMOSPHERE_INDEX_OF_REFRACTION;
+
 
 //Instance variables and methods
 public:
@@ -97,8 +101,14 @@ public:
 	/*
 	This method tells you what object this ray first intersects with.
 	If no intersection with an object is found, then its returned IntersectData instance will have noIntersect = TRUE.
+
+	@param spawnedRay Ray shot into the environment. Assumed to be normalized, and also assumed to have an object
+					  pointer if it was spawned inside an object.
+
+	@return Data about the intersection with an object, if any. Properly handles internal intersections
+	        if ray was spawned in an object. IntersectData.noIntersect is true if no intersection occurred.
 	*/
-	IntersectData spawnRay(Point position, Vector rayDir);
+	IntersectData spawnRay(Ray spawnedRay);
 
 	/*
 	Calculates reflected light coming off of this object in the direction of the IntersectData parameter. 

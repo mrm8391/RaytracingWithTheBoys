@@ -52,6 +52,11 @@ public:
 	Object(double x, double y, double z, ShadingModel shad = PhongShading());
 
 	/*
+	Setter
+	*/
+	void setMaterials(Material * outer, Material * inner);
+
+	/*
 	Performs an intersection test on the object with a ray, finding the closest intersection point.
 	IntersectData struct is returned containing info on intersection point and color of object.
 	IntersectData.noIntersect is true if there is no intersection between the ray and the object.

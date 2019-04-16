@@ -10,5 +10,5 @@ Ray::Ray(Point p, Vector dir)
 {
 	this->origin = Point(p);
 	this->direction = Vector(dir);
-	this->insideObject = 0;
+	this->spawnedInside = 0;
 }
