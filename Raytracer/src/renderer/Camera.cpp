@@ -20,8 +20,8 @@ using namespace std;
 double Camera::SCREEN_WIDTH = 3.0;
 double Camera::SCREEN_HEIGHT = 3.0;
 
-unsigned int Camera::NUM_PIXELS_HORIZONTAL = 100;
-unsigned int Camera::NUM_PIXELS_VERTICAL = 100;
+unsigned int Camera::NUM_PIXELS_HORIZONTAL = 300;
+unsigned int Camera::NUM_PIXELS_VERTICAL = 300;
 
 double Camera::PIXEL_WIDTH = Camera::SCREEN_WIDTH / Camera::NUM_PIXELS_HORIZONTAL;
 double Camera::PIXEL_HEIGHT = Camera::SCREEN_HEIGHT / Camera::NUM_PIXELS_VERTICAL;
