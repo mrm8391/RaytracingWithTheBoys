@@ -41,12 +41,12 @@ int main()
 	floor1->setMaterials(floorMaterial, invisibleMaterial);
 	floor2->setMaterials(floorMaterial, invisibleMaterial);
 	
-	SolidMaterial * largeSphereMaterial = new SolidMaterial(Vector(0.0, 0.0, 0.0), 0.8, 0.5, 0.3, 30.0, Vector(0.0, 0.0, 0.0));
+	SolidMaterial * largeSphereMaterial = new SolidMaterial(Vector(1.0, 0.0, 0.0), 0.8, 0.5, 0.3, 30.0, Vector(0.0, 0.0, 0.0));
 	SolidMaterial * innerGlassMaterial = new SolidMaterial(Vector(0.0,0.0, 0.0), 0.0, 0.0, 0.0, 0.0, Vector(0.0, 0.0, 0.0));
-	largeSphereMaterial->setReflective(0.1, 0.8);
-	innerGlassMaterial->setReflective(0.0, 0.8);
-	largeSphereMaterial->n = 1.0;
-	innerGlassMaterial->n = 1.0;
+	largeSphereMaterial->setReflective(0.1, 0.9);
+	innerGlassMaterial->setReflective(0.0, 1.0);
+	largeSphereMaterial->n = 1.1;
+	innerGlassMaterial->n = 1.1;
 	Point largeSpherePoint(-1.0, 1.4, -1.9);
 	Sphere* largeSphere = new Sphere(largeSpherePoint, 1.0);
 	largeSphere->setMaterials(largeSphereMaterial, innerGlassMaterial);
@@ -57,7 +57,7 @@ int main()
 	Sphere* smallSphere = new Sphere(smallSpherePoint, 0.75);
 	smallSphere->setMaterials(smallSphereMaterial, invisibleMaterial);
 	
-	Point firstLightPoint(-1.8, 4.75, -6.0);
+	Point firstLightPoint(-1.8, 4.75, 16.0);
 	LightSource* firstLight = new LightSource(firstLightPoint, 10, 10, 10);
 
 	World w;
