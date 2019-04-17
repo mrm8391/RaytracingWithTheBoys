@@ -20,8 +20,8 @@ using namespace std;
 double Camera::SCREEN_WIDTH = 3.0;
 double Camera::SCREEN_HEIGHT = 3.0;
 
-unsigned int Camera::NUM_PIXELS_HORIZONTAL = 300;
-unsigned int Camera::NUM_PIXELS_VERTICAL = 300;
+unsigned int Camera::NUM_PIXELS_HORIZONTAL = 200;
+unsigned int Camera::NUM_PIXELS_VERTICAL = 200;
 
 double Camera::PIXEL_WIDTH = Camera::SCREEN_WIDTH / Camera::NUM_PIXELS_HORIZONTAL;
 double Camera::PIXEL_HEIGHT = Camera::SCREEN_HEIGHT / Camera::NUM_PIXELS_VERTICAL;
@@ -292,8 +292,9 @@ Vector Camera::locallyShade(IntersectData closestInter) {
 
 		IntersectData potentialBlocker = spawnRay(shadowRay);
 
-		// if it reaches the light source without intersection, then closestInter.intersectedObject->shade() gives the color
-		if (potentialBlocker.noIntersect) {
+		// if it reaches the light source without intersection, OR the intersected object is transmissive,
+		// then closestInter.intersectedObject->shade() gives the color
+		if ((potentialBlocker.noIntersect) || (potentialBlocker.intersectedObject->outerMaterial->kt != 0)) {
 			Ray ray(closestInter.intersection, lightSourceRayDir);
 			color = closestInter.intersectedObject->shade(*light, closestInter.ray, closestInter);
 
