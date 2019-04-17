@@ -68,11 +68,10 @@ int main()
 	w.addLightSource(firstLight);
 
 
-	Point camOrig(-.8, 1.75, -11.14);
+	Point camOrig(-.8, 1.0, -11.14);//(-.8, 1.75, -11.14);
 	//Point camOrig(-.8, .7, -12.14);
 	Point worldOrig(0, 0, 0);
-	Vector lookat(0, 0.2, 1);
-	//Vector lookat(0, 0, 1);
+	Vector lookat(0, 0.1, 1);
 	Vector base(0, 1, 0);
 
 	Camera cam(camOrig, lookat, base);
