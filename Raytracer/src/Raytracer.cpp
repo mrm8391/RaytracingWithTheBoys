@@ -67,7 +67,6 @@ int main()
 	w.addObject(smallSphere);
 	w.addLightSource(firstLight);
 
-
 	Point camOrig(-.8, 1.0, -11.14);
 	Point worldOrig(0, 0, 0);
 	Vector lookat(0, 0.1, 1);

@@ -35,6 +35,7 @@ public:
 	@return RGB pixel values, normalized from radiance input. Bounded [0-255]
 	*/
 	static std::vector<std::vector<Vector>> WardScale(std::vector<std::vector<Vector>> radiances);
+
 };
 
 #endif

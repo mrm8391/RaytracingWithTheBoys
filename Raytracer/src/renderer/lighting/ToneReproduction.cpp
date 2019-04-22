@@ -41,13 +41,13 @@ vector<vector<Vector>> ToneReproduction::LinearScale(vector<vector<Vector>> radi
 }
 
 vector<vector<Vector>> ToneReproduction::WardScale(vector<vector<Vector>> radiances) {
-
+	// STEP 1: Incoming in @param radiances
 	vector<vector<double>> luminances;
 
 	double maxLuminance = 0.0;
 	double sigma = 0.0;
 
-	// find luminance values, also scan for max luminance value in input
+	// STEP 2: find luminance values, also scan for max luminance value in input
 	// also calculate sigma for log-average luminance at the same time
 	for (int i = 0; i < radiances.size(); i++) {
 		luminances.push_back(vector<double>());
@@ -63,16 +63,15 @@ vector<vector<Vector>> ToneReproduction::WardScale(vector<vector<Vector>> radian
 			luminances[i].push_back(luminance);
 
 			// Add log to sigma
-			sigma += log(0.0001 + luminance);
+			sigma += log(0.00001 + luminance);
 		}
 	}
-
-	// find log-average luminance of scene
-	// e ^ (1/N * sigma( log(delta + Luminance(x,y) ) )
 	
 	// number of pixels
 	int N = radiances.size() * radiances[0].size();
 
+	// find log-average luminance of scene
+	// e ^ (1/N * sigma( log(delta + Luminance(x,y) ) )
 	double L = exp(sigma / N);
 
 	// calculate scale factor
@@ -81,13 +80,13 @@ vector<vector<Vector>> ToneReproduction::WardScale(vector<vector<Vector>> radian
 	
 	vector<vector<Vector>> pixels;
 
-	//normalize and set output list
+	// STEP 3 and STEP 4: multiply by sf, scale by maxLuminance
 	for (int i = 0; i < radiances.size(); i++) {
 		pixels.push_back(vector<Vector>());
 
 		for (int j = 0; j < radiances[i].size(); j++) {
 			Vector cur = radiances[i][j];
-			cur.scale(sf / maxLuminance);
+			cur.scale(sf / maxLuminance); 
 			
 			pixels[i].push_back(cur);
 		}
