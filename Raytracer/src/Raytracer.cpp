@@ -53,12 +53,15 @@ int main()
 
 	SolidMaterial * smallSphereMaterial = new SolidMaterial(Vector(0.0, 0.0, 1.0), 0.8, 0.5, 0.3, 30.0, Vector(1.0, 1.0, 1.0));
 	smallSphereMaterial->setReflective(0.5, 0.0);
-	Point smallSpherePoint(0.0, .8, -1.2);
+	Point smallSpherePoint(0.0, .8, 2.2);
 	Sphere* smallSphere = new Sphere(smallSpherePoint, 0.75);
 	smallSphere->setMaterials(smallSphereMaterial, invisibleMaterial);
 	
 	Point firstLightPoint(-1.8, 4.75, -6.0);
-	LightSource* firstLight = new LightSource(firstLightPoint, 10, 10, 10);
+	// Low: 80
+	// Mid: 145
+	// High: 210
+	LightSource* firstLight = new LightSource(firstLightPoint, 410, 410, 410); 
 
 	World w;
 	w.addObject(floor1);
@@ -67,9 +70,7 @@ int main()
 	w.addObject(smallSphere);
 	w.addLightSource(firstLight);
 
-
-	Point camOrig(-.8, 1.0, -11.14);//(-.8, 1.75, -11.14);
-	//Point camOrig(-.8, .7, -12.14);
+	Point camOrig(-.8, 1.0, -11.14);
 	Point worldOrig(0, 0, 0);
 	Vector lookat(0, 0.1, 1);
 	Vector base(0, 1, 0);
@@ -78,12 +79,13 @@ int main()
 
 	auto pixels = cam.render(w);
 	
-	pixels = ToneReproduction::LinearScale(pixels);
+	//pixels = ToneReproduction::LinearScale(pixels);
+	pixels = ToneReproduction::ReinhartScale(pixels);
 
 	Imager img(pixels);
 
 	img.displayImage();
-	img.saveImage("checkpoint4");
+	img.saveImage("ReinhartScalingHigh");
 
 	//Deallocate object memory usage
 	w.clear();

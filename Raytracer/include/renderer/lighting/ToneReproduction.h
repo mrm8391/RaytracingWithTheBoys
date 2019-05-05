@@ -27,6 +27,23 @@ public:
 	*/
 	static std::vector<std::vector<Vector>> LinearScale(std::vector<std::vector<Vector>> radiances);
 
+	/*
+	Ward conversion to RGB. 
+
+	@param radiances Input radiances in 2d list of RGB vectors. Radiances unbounded.
+
+	@return RGB pixel values, normalized from radiance input. Bounded [0-255]
+	*/
+	static std::vector<std::vector<Vector>> WardScale(std::vector<std::vector<Vector>> radiances);
+
+	/*
+	Reinhart conversion to RGB.
+
+	@param radiances Input radiances in 2d list of RGB vectors. Radiances unbounded.
+
+	@return RGB pixel values, normalized from radiance input. Bounded [0-255]
+	*/
+	static std::vector<std::vector<Vector>> ReinhartScale(std::vector<std::vector<Vector>> radiances);
 };
 
 #endif
