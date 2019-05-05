@@ -30,7 +30,7 @@ double Camera::FOCAL_POINT = 5.0;
 
 int Camera::MAX_ILLUMINATE_DEPTH = 3;
 
-Vector Camera::BACKGROUND_COLOR = Vector(0.61 * 4, 1.48 * 4, 2.3 * 4);
+Vector Camera::BACKGROUND_COLOR = Vector(0.61 * 70, 1.48 * 70, 2.3 * 70);
 
 double Camera::ATMOSPHERE_INDEX_OF_REFRACTION = 1.0;
 

@@ -58,7 +58,10 @@ int main()
 	smallSphere->setMaterials(smallSphereMaterial, invisibleMaterial);
 	
 	Point firstLightPoint(-1.8, 4.75, -6.0);
-	LightSource* firstLight = new LightSource(firstLightPoint, 10, 10, 10);
+	// Low: 80
+	// Mid: 145
+	// High: 210
+	LightSource* firstLight = new LightSource(firstLightPoint, 410, 410, 410); 
 
 	World w;
 	w.addObject(floor1);
@@ -77,12 +80,12 @@ int main()
 	auto pixels = cam.render(w);
 	
 	//pixels = ToneReproduction::LinearScale(pixels);
-	pixels = ToneReproduction::WardScale(pixels);
+	pixels = ToneReproduction::ReinhartScale(pixels);
 
 	Imager img(pixels);
 
 	img.displayImage();
-	img.saveImage("checkpoint4");
+	img.saveImage("ReinhartScalingHigh");
 
 	//Deallocate object memory usage
 	w.clear();

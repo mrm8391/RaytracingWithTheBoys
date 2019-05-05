@@ -94,3 +94,64 @@ vector<vector<Vector>> ToneReproduction::WardScale(vector<vector<Vector>> radian
 
 	return pixels;
 }
+
+vector<vector<Vector>> ToneReproduction::ReinhartScale(vector<vector<Vector>> radiances) {
+	// STEP 1: Incoming in @param radiances
+	vector<vector<double>> luminances;
+
+	double maxLuminance = 0.0;
+	double sigma = 0.0;
+
+	// STEP 2: find luminance values, also scan for max luminance value in input
+	// also calculate sigma for log-average luminance at the same time
+	for (int i = 0; i < radiances.size(); i++) {
+		luminances.push_back(vector<double>());
+
+		for (int j = 0; j < radiances[i].size(); j++) {
+			// Calculate luminance at this pixel
+			Vector cur = radiances[i][j];
+			// L(x,y) = 0.27R(x,y)+0.67G(x,y) +0.06B(x,y)
+			double luminance = cur.vec[0] * 0.27 + cur.vec[1] * 0.67 + cur.vec[2] * 0.06;
+
+			if (luminance > maxLuminance) maxLuminance = luminance;
+
+			luminances[i].push_back(luminance);
+
+			// Add log to sigma
+			sigma += log(0.00001 + luminance);
+		}
+	}
+
+	// number of pixels
+	int N = radiances.size() * radiances[0].size();
+
+	// find log-average luminance of scene
+	// e ^ (1/N * sigma( log(delta + Luminance(x,y) ) )
+	double L = exp(sigma / N);
+
+	// percent gray for zone V
+	double a = 0.18;
+
+	vector<vector<Vector>> pixels;
+
+	// STEP 3 and STEP 4
+	for (int i = 0; i < radiances.size(); i++) {
+		pixels.push_back(vector<Vector>());
+
+		for (int j = 0; j < radiances[i].size(); j++) {
+			Vector cur = radiances[i][j];
+			cur = cur.scale(a / L); // cur now contanins scaled luminances
+
+			double Rr = double(cur.vec[0] / (1.0 + cur.vec[0]));
+			double Gr = double(cur.vec[1] / (1.0 + cur.vec[1]));
+			double Br = double(cur.vec[2] / (1.0 + cur.vec[2]));
+
+			Vector reflectances = Vector(Rr, Gr, Br);
+			reflectances = reflectances.scale(maxLuminance);
+
+			pixels[i].push_back(reflectances);
+		}
+	}
+
+	return pixels;
+}
