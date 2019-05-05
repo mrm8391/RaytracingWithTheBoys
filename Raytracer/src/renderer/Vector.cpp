@@ -58,8 +58,6 @@ Vector Vector::refract(Vector normal, double ni, double nt)
 	//t = ( ni * (d - n(d DOT n)) / nt ) 
 	//   + n * sqrt(1 - ( ni^2 * (1 - (d DOT n)^2 ) / nt^2 )
 
-	normal = normal.scale(-1);
-
 	double dprod = this->dot(normal);
 
 	double rootComponent = 1.0 - 

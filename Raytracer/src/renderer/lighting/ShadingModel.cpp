@@ -10,5 +10,5 @@ ShadingModel::ShadingModel()
 Vector ShadingModel::shade(LightSource light, Ray incoming, IntersectData inter)
 {
 	//Default, return material color at u,v = 0,0.
-	return inter.intersectedObject->material->colorAtUV(0,0);
+	return inter.intersectedObject->outerMaterial->colorAtUV(0,0);
 }

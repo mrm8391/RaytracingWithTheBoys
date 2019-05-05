@@ -102,7 +102,7 @@ Object * Triangle::copy()
 
 	t->id = this->id;
 	t->pos = this->pos;
-	t->material = this->material;
+	t->outerMaterial = this->outerMaterial;
 	t->p0 = this->p0;
 	t->p1 = this->p1;
 	t->p2 = this->p2;

@@ -9,6 +9,7 @@ a ray-object intersection.
 #include <renderer/Point.h>
 #include <renderer/Ray.h>
 
+//Forward declaration for the compiler to not throw a hissy fit w/ the pointer
 class Object;
 
 typedef struct IntersectData_{

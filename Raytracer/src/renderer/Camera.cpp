@@ -9,6 +9,7 @@
 #include <prims/Object.h>
 #include <utils/Transforms.h>
 #include <renderer/World.h>
+#include <renderer/materials/Material.h>
 
 using Eigen::Vector4d;
 using Eigen::Matrix4d;
@@ -19,17 +20,19 @@ using namespace std;
 double Camera::SCREEN_WIDTH = 3.0;
 double Camera::SCREEN_HEIGHT = 3.0;
 
-unsigned int Camera::NUM_PIXELS_HORIZONTAL = 300;
-unsigned int Camera::NUM_PIXELS_VERTICAL = 300;
+unsigned int Camera::NUM_PIXELS_HORIZONTAL = 200;
+unsigned int Camera::NUM_PIXELS_VERTICAL = 200;
 
 double Camera::PIXEL_WIDTH = Camera::SCREEN_WIDTH / Camera::NUM_PIXELS_HORIZONTAL;
 double Camera::PIXEL_HEIGHT = Camera::SCREEN_HEIGHT / Camera::NUM_PIXELS_VERTICAL;
 
 double Camera::FOCAL_POINT = 5.0;
 
-int Camera::MAX_ILLUMINATE_DEPTH = 1;
+int Camera::MAX_ILLUMINATE_DEPTH = 3;
 
 Vector Camera::BACKGROUND_COLOR = Vector(0.61 * 4, 1.48 * 4, 2.3 * 4);
+
+double Camera::ATMOSPHERE_INDEX_OF_REFRACTION = 1.0;
 
 Camera::Camera(Point pos, Vector look, Vector base)
 {
@@ -125,7 +128,9 @@ std::vector<std::vector<Vector>> Camera::render(World world)
 			Vector rayDir = pixelPos.subtract(cameraOrigin);
 			rayDir.normalize();
 
-			IntersectData closestInter = spawnRay(pixelPos, rayDir);
+			Ray cameraRay(pixelPos, rayDir);
+
+			IntersectData closestInter = spawnRay(cameraRay);
 			
 			Vector color = illuminate(closestInter, 0);
 			pixels[x][y] = color;
@@ -150,16 +155,13 @@ std::vector<std::vector<Vector>> Camera::render(World world)
 This method tells you what object this ray first intersects with. 
 If no intersection with an object is found, then its returned IntersectData instance will have noIntersect = TRUE. 
 */
-IntersectData Camera::spawnRay(Point position, Vector rayDir) {
-	rayDir.normalize();
-
-	Ray ray(position, rayDir);
+IntersectData Camera::spawnRay(Ray spawnedRay) {
 
 	IntersectData closestInter;
 
 	for (Object* obj : this->objects) {
 
-		vector<IntersectData> inters = obj->intersect(ray);
+		vector<IntersectData> inters = obj->intersect(spawnedRay);
 		if (!inters.empty()) { // if there is an intersection
 			
 			//Find the closest intersection on this object that isn't the same point where the ray originated.
@@ -182,7 +184,13 @@ IntersectData Camera::spawnRay(Point position, Vector rayDir) {
 		}
 	}
 
-	closestInter.ray = ray;
+	closestInter.ray = spawnedRay;
+
+	//invert normal if ray is refracting and intersecting inside of object
+	if (closestInter.intersectedObject == spawnedRay.spawnedInside) {
+		closestInter.normal = closestInter.normal.scale(-1);
+	}
+
 	return closestInter; 
 }
 
@@ -190,10 +198,34 @@ Vector Camera::illuminate(IntersectData intersection, int depth)
 {
 	Vector color;
 
+	// We have hit another object.  
 	if (!intersection.noIntersect) {
-		// We have hit another object.  
-		double kr = intersection.intersectedObject->material->kr;
-		double kt = intersection.intersectedObject->material->kt;
+
+		//Material to apply. Use inner material if intersection
+		//is occurring from a ray that was spawned inside object
+		Material* applicableMaterial;
+
+		//Indices of refraction to use. n1 is index from source of ray, n2 is from destination
+		double n1, n2;
+
+		//Since no recursive object placement is planned, we're going to assume
+		//that the ray origin is spawned inside the current intersected object
+		//if there's a non-null object for the ray
+		if (intersection.ray.spawnedInside != 0) {
+			applicableMaterial = intersection.intersectedObject->innerMaterial;
+			n1 = intersection.intersectedObject->innerMaterial->n;
+			n2 = Camera::ATMOSPHERE_INDEX_OF_REFRACTION;
+		}
+
+		//Object must be intersected from outside then
+		else {
+			applicableMaterial = intersection.intersectedObject->outerMaterial;
+			n1 = Camera::ATMOSPHERE_INDEX_OF_REFRACTION;
+			n2 = intersection.intersectedObject->outerMaterial->n;
+		}
+		
+		double kr = applicableMaterial->kr;
+		double kt = applicableMaterial->kt;
 
 		// Calculates color at that point due to shadow rays 
 		color = locallyShade(intersection);
@@ -205,7 +237,12 @@ Vector Camera::illuminate(IntersectData intersection, int depth)
 				Vector reflectedDirection = intersection.ray.direction.reflect(intersection.normal);
 				reflectedDirection.normalize();
 
-				IntersectData nextReflection = spawnRay(intersection.intersection, reflectedDirection);
+				Ray reflectedRay(intersection.intersection, reflectedDirection);
+
+				//Since it's reflection, object medium will be same as original source ray's
+				reflectedRay.spawnedInside = intersection.ray.spawnedInside;
+
+				IntersectData nextReflection = spawnRay(reflectedRay);
 				Vector reflColor = illuminate(nextReflection, depth + 1);
 
 				color.vec += reflColor.scale(kr).vec;
@@ -213,14 +250,22 @@ Vector Camera::illuminate(IntersectData intersection, int depth)
 
 			// If transmission constant is nonzero, recursively calculate transmission 
 			if (kt > 0.0) {
-				// Spawn ray in reflected direction
-				//Vector transmittedDirection = SUM BIG CALCULATION
-				//transmittedDirection.normalize();
+				// Spawn ray in refracted direction. spawnRay from previous recursive call should 
+				// be handling the inverted normal if ray is intersecting from inside.
 
-				//IntersectData nextTransmission = spawnRay(intersection.intersection, transmittedDirection);
-				//Vector transmColor = illuminate(nextTransmission, depth + 1);
+				Vector transmittedDirection = intersection.ray.direction.refract(intersection.normal, n1, n2);
+				transmittedDirection.normalize();
 
-				//color.vec += transmColor.scale(kt).vec;
+				Ray refractedRay(intersection.intersection, transmittedDirection);
+
+				//If coming from outside, refracted ray will be going through intersected object
+				if (intersection.ray.spawnedInside == 0)
+					refractedRay.spawnedInside = intersection.intersectedObject;
+
+				IntersectData nextTransmission = spawnRay(refractedRay);
+				Vector transmColor = illuminate(nextTransmission, depth + 1);
+
+				color.vec += transmColor.scale(kt).vec;
 			}
 		}
 	}
@@ -239,10 +284,17 @@ Vector Camera::locallyShade(IntersectData closestInter) {
 	for (LightSource * light : lights) {
 		Vector lightSourceRayDir = light->pos.subtract(closestInter.intersection);
 		lightSourceRayDir.normalize();
-		IntersectData potentialBlocker = spawnRay(closestInter.intersection, lightSourceRayDir);
 
-		// if it reaches the light source without intersection, then closestInter.intersectedObject->shade() gives the color
-		if (potentialBlocker.noIntersect) {
+		Ray shadowRay(closestInter.intersection, lightSourceRayDir);
+
+		//medium of shadow ray is wherever the original ray was spawned
+		shadowRay.spawnedInside = closestInter.ray.spawnedInside;
+
+		IntersectData potentialBlocker = spawnRay(shadowRay);
+
+		// if it reaches the light source without intersection, OR the intersected object is transmissive,
+		// then closestInter.intersectedObject->shade() gives the color
+		if ((potentialBlocker.noIntersect) || (potentialBlocker.intersectedObject->outerMaterial->kt != 0)) {
 			Ray ray(closestInter.intersection, lightSourceRayDir);
 			color = closestInter.intersectedObject->shade(*light, closestInter.ray, closestInter);
 
@@ -251,7 +303,7 @@ Vector Camera::locallyShade(IntersectData closestInter) {
 		}
 		//if collision with an obj, shadow ray
 		else {
-			color = closestInter.intersectedObject->material->colorAtUV(closestInter.u, closestInter.v);
+			color = closestInter.intersectedObject->outerMaterial->colorAtUV(closestInter.u, closestInter.v);
 		}
 	}
 
@@ -266,9 +318,9 @@ void Camera::clear()
 		delete cur->shadingModel;
 
 		//placeholder. should copy/free material in here...
-		if (cur->material != 0) {
-			//delete cur->material;
-			//cur->material = 0;
+		if (cur->outerMaterial != 0) {
+			//delete cur->outerMaterial;
+			//cur->outerMaterial = 0;
 		}
 
 		delete cur;

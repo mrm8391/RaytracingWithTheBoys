@@ -26,8 +26,10 @@ public:
 	// Red, Green, and Blue Radiance Reflection Levels
 	// Vector color;
 
-	// Material containing all necessary values for shading
-	Material* material;
+	// Material containing all necessary values for shading.
+	// Outer material for use when intersected from outside.
+	// Inner for when rays refract through.
+	Material *outerMaterial, *innerMaterial;
 
 
 	// Object's id, for use by the world/camera
@@ -48,6 +50,11 @@ public:
 	Construct an object at a specified position, and assign it a unique ID.
 	*/
 	Object(double x, double y, double z, ShadingModel shad = PhongShading());
+
+	/*
+	Setter
+	*/
+	void setMaterials(Material * outer, Material * inner);
 
 	/*
 	Performs an intersection test on the object with a ray, finding the closest intersection point.
