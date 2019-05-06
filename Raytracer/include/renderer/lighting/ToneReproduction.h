@@ -44,6 +44,15 @@ public:
 	@return RGB pixel values, normalized from radiance input. Bounded [0-255]
 	*/
 	static std::vector<std::vector<Vector>> ReinhartScale(std::vector<std::vector<Vector>> radiances);
+
+	/*
+	Adaptive logarithm conversion to RGB.
+
+	@param radiances Input radiances in 2d list of RGB vectors. Radiances unbounded.
+
+	@return RGB pixel values, normalized from radiance input. Bounded [0-255]
+	*/
+	static std::vector<std::vector<Vector>> AdaptiveLogarithmScale(std::vector<std::vector<Vector>> radiances);
 };
 
 #endif
