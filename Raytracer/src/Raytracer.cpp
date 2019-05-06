@@ -61,7 +61,7 @@ int main()
 	// Low: 80
 	// Mid: 145
 	// High: 210
-	LightSource* firstLight = new LightSource(firstLightPoint, 410, 410, 410); 
+	LightSource* firstLight = new LightSource(firstLightPoint, 210, 210, 210); 
 
 	World w;
 	w.addObject(floor1);
@@ -80,12 +80,12 @@ int main()
 	auto pixels = cam.render(w);
 	
 	//pixels = ToneReproduction::LinearScale(pixels);
-	pixels = ToneReproduction::ReinhartScale(pixels);
+	pixels = ToneReproduction::AdaptiveLogarithmScale(pixels);
 
 	Imager img(pixels);
 
 	img.displayImage();
-	img.saveImage("ReinhartScalingHigh");
+	img.saveImage("LogScalingHigh");
 
 	//Deallocate object memory usage
 	w.clear();
