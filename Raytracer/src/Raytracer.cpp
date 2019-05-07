@@ -3,6 +3,12 @@
 
 #include <iostream>
 
+#include <fstream>
+#include <string>
+
+// 'C:\Users\tjwat_000\source\repos\RaytracingWithTheBoys\Raytracer\packages'
+#include <boost/algorithm/string.hpp>
+
 #include <renderer/Camera.h>
 #include <renderer/Point.h>
 #include <renderer/Vector.h>
@@ -28,46 +34,85 @@ using Eigen::StorageOptions;
 using Eigen::Vector3d;
 
 
-int main()
-{
+// Initializes all triangles
+// You may have to write the full path to fileName
+vector<Triangle *> loadHexagons(std::string fileName) {
 	//unshaded material for object that don't refract
 	SolidMaterial * invisibleMaterial = new SolidMaterial(Vector(0, 0, 0), 0, 0, 0, 0, Vector(0, 0, 0));
-	
-	CheckerMaterial * floorMaterial = new CheckerMaterial(17, Vector(1.0, 0.93, 0.46), Vector(0.9, 0.21, 0.3));
-	floorMaterial->setReflective(0.0, 0.0);
-	Point f1(-2, 0, -6), f2(-2, 0, 6), f3(2, 0, 6), f4(2, 0, -6);
-	Triangle* floor1 = new Triangle(f1, f2, f4);
-	Triangle* floor2 = new Triangle(f3, f4, f2);
-	floor1->setMaterials(floorMaterial, invisibleMaterial);
-	floor2->setMaterials(floorMaterial, invisibleMaterial);
-	
-	SolidMaterial * largeSphereMaterial = new SolidMaterial(Vector(0.01, 0.01, 0.01), 0.8, 0.5, 0.3, 30.0, Vector(1.0, 1.0, 1.0));
-	SolidMaterial * innerGlassMaterial = new SolidMaterial(Vector(0.0,0.0, 0.0), 0.0, 0.0, 0.0, 0.0, Vector(0.0, 0.0, 0.0));
-	largeSphereMaterial->setReflective(0.0, 1.0);
-	innerGlassMaterial->setReflective(0.0, 1.0);
-	largeSphereMaterial->n = 1.33;
-	innerGlassMaterial->n = 1.33;
-	Point largeSpherePoint(-1.0, 1.4, -1.9);
-	Sphere* largeSphere = new Sphere(largeSpherePoint, 1.0);
-	largeSphere->setMaterials(largeSphereMaterial, innerGlassMaterial);
 
-	SolidMaterial * smallSphereMaterial = new SolidMaterial(Vector(0.0, 0.0, 1.0), 0.8, 0.5, 0.3, 30.0, Vector(1.0, 1.0, 1.0));
-	smallSphereMaterial->setReflective(0.5, 0.0);
-	Point smallSpherePoint(0.0, .8, 2.2);
-	Sphere* smallSphere = new Sphere(smallSpherePoint, 0.75);
-	smallSphere->setMaterials(smallSphereMaterial, invisibleMaterial);
+	// Layers
+	vector<SolidMaterial *> layerMaterials;
+	layerMaterials.push_back(new SolidMaterial(Vector(76.0/255.0, 97.0/255.0, 47.0/255.0), 0.8, 0.5, 0.3, 30.0, Vector(1.0, 1.0, 1.0))); // layer 0
+	layerMaterials.push_back(new SolidMaterial(Vector(133.0 / 255.0, 158.0 / 255.0, 94.0 / 255.0), 0.8, 0.5, 0.3, 30.0, Vector(1.0, 1.0, 1.0))); // layer 1
+	layerMaterials.push_back(new SolidMaterial(Vector(101.0 / 255.0, 85.0 / 255.0, 57.0 / 255.0), 0.8, 0.5, 0.3, 30.0, Vector(1.0, 1.0, 1.0))); // layer 2
+
+	// This vector will contain every triangle
+	vector<Triangle *> allTriangles;
+
+	// For every line in the file, expecting format: (x, y, z); (x, y, z); (x, y, z); layer
+	string line;
+	ifstream hexagonFile(fileName);
+	if (hexagonFile.is_open()) {
+		while (getline(hexagonFile, line)) {
+			// line contains three points in first three elements, and layer in last element, separated by ";"
+			std::vector<std::string> pointsAndLayer;
+			boost::split(pointsAndLayer, line, [](char c) {return c == ';'; });
+
+			// Split each point into its double coordinates, and instantiate three Points
+			std::vector<std::string> coordinates;
+
+			boost::split(coordinates, pointsAndLayer[0], [](char c) {return c == ','; });
+			Point p0(stod(coordinates[0]), stod(coordinates[1]), stod(coordinates[2]));
+
+			boost::split(coordinates, pointsAndLayer[1], [](char c) {return c == ','; });
+			Point p1(stod(coordinates[0]), stod(coordinates[1]), stod(coordinates[2]));
+
+			boost::split(coordinates, pointsAndLayer[2], [](char c) {return c == ','; });
+			Point p2(stod(coordinates[0]), stod(coordinates[1]), stod(coordinates[2]));
+
+			// The layer of this triangle
+			int layer = stoi(pointsAndLayer[3]);
+
+			// Push back a new triangle into allTriangles, with those three Points and the Material corresponding to the layer
+			Triangle* newTriangle = new Triangle(p0, p1, p2);
+			newTriangle->setMaterials(layerMaterials[layer], invisibleMaterial);
+
+			allTriangles.push_back(newTriangle);
+
+
+		}
+		hexagonFile.close();
+	}
+	else {
+		cout << "Error: Could not open " << fileName << ".\n";
+	}
+
+
+
+
+	return allTriangles;
+}
+
+
+int main()
+{
+	vector<Triangle *> allTriangles = loadHexagons("C:\\Users\\tjwat_000\\source\\repos\\RaytracingWithTheBoys\\Raytracer\\src\\3DhexagonsShortened.txt");
 	
 	Point firstLightPoint(-1.8, 4.75, -6.0);
 	// Low: 80
 	// Mid: 145
 	// High: 210
-	LightSource* firstLight = new LightSource(firstLightPoint, 210, 210, 210); 
+	LightSource* firstLight = new LightSource(firstLightPoint, 180, 180, 180); 
 
 	World w;
-	w.addObject(floor1);
-	w.addObject(floor2);
-	w.addObject(largeSphere);
-	w.addObject(smallSphere);
+	//w.addObject(floor1);
+	//w.addObject(floor2);
+	//w.addObject(largeSphere);
+	//w.addObject(smallSphere);
+	for (Triangle * triangle : allTriangles) {
+		w.addObject(triangle);
+	}
+
 	w.addLightSource(firstLight);
 
 	Point camOrig(-.8, 1.0, -11.14);
@@ -76,11 +121,11 @@ int main()
 	Vector base(0, 1, 0);
 
 	Camera cam(camOrig, lookat, base);
-
+	cout << "Rendering...\n";
 	auto pixels = cam.render(w);
 	
 	//pixels = ToneReproduction::LinearScale(pixels);
-	pixels = ToneReproduction::AdaptiveLogarithmScale(pixels);
+	pixels = ToneReproduction::WardScale(pixels);
 
 	Imager img(pixels);
 
@@ -91,11 +136,7 @@ int main()
 	w.clear();
 	cam.clear();
 
-	delete invisibleMaterial;
-	delete floorMaterial;
-	delete smallSphereMaterial;
-	delete largeSphereMaterial;
-	delete innerGlassMaterial;
+	// Supposed to delete materials
 
     return 0;
 }

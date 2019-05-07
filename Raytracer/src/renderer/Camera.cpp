@@ -20,8 +20,8 @@ using namespace std;
 double Camera::SCREEN_WIDTH = 3.0;
 double Camera::SCREEN_HEIGHT = 3.0;
 
-unsigned int Camera::NUM_PIXELS_HORIZONTAL = 200;
-unsigned int Camera::NUM_PIXELS_VERTICAL = 200;
+unsigned int Camera::NUM_PIXELS_HORIZONTAL = 300;
+unsigned int Camera::NUM_PIXELS_VERTICAL = 300;
 
 double Camera::PIXEL_WIDTH = Camera::SCREEN_WIDTH / Camera::NUM_PIXELS_HORIZONTAL;
 double Camera::PIXEL_HEIGHT = Camera::SCREEN_HEIGHT / Camera::NUM_PIXELS_VERTICAL;
@@ -135,6 +135,7 @@ std::vector<std::vector<Vector>> Camera::render(World world)
 			Vector color = illuminate(closestInter, 0);
 			pixels[x][y] = color;
 		}
+		cout << "col " << x << "\n";
 	}
 
 	//Set instance variables
@@ -200,7 +201,7 @@ Vector Camera::illuminate(IntersectData intersection, int depth)
 
 	// We have hit another object.  
 	if (!intersection.noIntersect) {
-
+		/*
 		//Material to apply. Use inner material if intersection
 		//is occurring from a ray that was spawned inside object
 		Material* applicableMaterial;
@@ -226,12 +227,12 @@ Vector Camera::illuminate(IntersectData intersection, int depth)
 		
 		double kr = applicableMaterial->kr;
 		double kt = applicableMaterial->kt;
-
+		*/
 		// Calculates color at that point due to shadow rays 
 		color = locallyShade(intersection);
-
+		
 		if (depth < MAX_ILLUMINATE_DEPTH) {
-			// If reflection constant is nonzero, recursively calculate reflection 
+			/*// If reflection constant is nonzero, recursively calculate reflection 
 			if (kr > 0.0) {
 				// Spawn ray in reflected direction
 				Vector reflectedDirection = intersection.ray.direction.reflect(intersection.normal);
@@ -246,8 +247,8 @@ Vector Camera::illuminate(IntersectData intersection, int depth)
 				Vector reflColor = illuminate(nextReflection, depth + 1);
 
 				color.vec += reflColor.scale(kr).vec;
-			}
-
+			}*/
+			/*
 			// If transmission constant is nonzero, recursively calculate transmission 
 			if (kt > 0.0) {
 				// Spawn ray in refracted direction. spawnRay from previous recursive call should 
@@ -266,7 +267,7 @@ Vector Camera::illuminate(IntersectData intersection, int depth)
 				Vector transmColor = illuminate(nextTransmission, depth + 1);
 
 				color.vec += transmColor.scale(kt).vec;
-			}
+			}*/
 		}
 	}
 	else {
